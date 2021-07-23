@@ -2,6 +2,9 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
+import { Stage, Sprite } from "@inlet/react-pixi";
+import React from "react";
+import Canvas from "../public/canvas";
 
 export default function Home() {
   return (
@@ -14,6 +17,8 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className="text-red-200">Welcome to VPI Calculator</h1>
+
+        <Canvas />
 
         <div className={styles.grid}>
           <Link href="/units">

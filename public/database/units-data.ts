@@ -1,4 +1,4 @@
-export const units = [
+export const unitsData = [
   {
     name: "Конница",
 

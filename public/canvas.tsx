@@ -6,6 +6,7 @@ const zoom = 2;
 const Canvas = (props) => {
   const canvasRef = useRef(null);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const draw = (ctx, frameCount) => {
     // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     // ctx.fillStyle = "#555555";
@@ -29,17 +30,20 @@ const Canvas = (props) => {
   var x1 = 498;
   var y1 = 10;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const battle = (ctx) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    squads.map(({ size, unitType, locationX, locationY }) => {
-      const height = Math.sqrt(size / 2) * zoom;
-      const width = Math.sqrt(size / 2) * 2 * zoom;
-      ctx.fillStyle = unitType === "Тяж Конница" ? "blue" : "red";
-      ctx.fillRect(locationX + x, locationY + y, height, width);
-    });
-    x++;
+    squads.map(
+      ({ size, unitType, locationX, locationY, changeByX, changeByY }) => {
+        const height = Math.sqrt(size / 2) * zoom;
+        const width = Math.sqrt(size / 2) * 2 * zoom;
+        ctx.fillStyle = unitType === "Тяж Конница" ? "blue" : "red";
+        ctx.fillRect(locationX + x, locationY + y, height, width);
+      }
+    );
+    x < 400 && x++;
     x1--;
-    x === x1 && console.log(x, x1);
+    // x === x1 && console.log(x, x1); // столкновение!
     // ctx.fillStyle = "blue";
     // ctx.fillRect(x, y + 30, squads[0].x, 15);
     // ctx.fillStyle = "yellow";

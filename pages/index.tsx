@@ -2,7 +2,6 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
-import { Stage, Sprite } from "@inlet/react-pixi";
 import React from "react";
 import Canvas from "../public/canvas";
 
@@ -25,6 +24,13 @@ export default function Home() {
             <a className={styles.card}>
               <h2>Units &rarr;</h2>
               <p>Table with units parameters</p>
+            </a>
+          </Link>
+
+          <Link href="/battle-calculator">
+            <a className={styles.card}>
+              <h2>battle-calculator &rarr;</h2>
+              <p>battle-calculator</p>
             </a>
           </Link>
         </div>

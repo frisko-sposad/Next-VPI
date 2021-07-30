@@ -1,7 +1,6 @@
-import { units } from "../../public/database/units";
-import { useTable, useExpanded } from "react-table";
-import { useMemo } from "react";
-import React from "react";
+import React, { useMemo } from "react";
+import { useExpanded, useTable } from "react-table";
+import { unitsData } from "../../public/database/units-data";
 
 const Table = ({ columns: userColumns, data }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -61,7 +60,7 @@ const Table = ({ columns: userColumns, data }) => {
 };
 
 const Units = () => {
-  const data = useMemo(() => units, []);
+  const data = useMemo(() => unitsData, []);
 
   const columns = useMemo(
     () => [

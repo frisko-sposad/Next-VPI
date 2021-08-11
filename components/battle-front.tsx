@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { unitsData } from "../public/database/units-data";
-import { unitsDataTest } from "../public/database/units-data-test";
 
 const BattleFront = () => {
   //   const unitsType = "Конница";
@@ -27,6 +26,7 @@ const BattleFront = () => {
   // };
 
   const [value, setValue] = useState(""); // запоминаем выбор из
+  const [number, setNumber] = useState("22"); // запоминаем количество
 
   const unitsType = "Пехота";
 
@@ -41,34 +41,30 @@ const BattleFront = () => {
       console.log(unit);
       return unit;
     }
-
-    // return <option key={index}>{unit.name}</option>;
   });
 
   return (
     <div>
-      <select value={value} onChange={(event) => setValue(event.target.value)}>
+      <title>Назавание фланга</title>
+      <select
+        className="border rounded text-right"
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      >
         {options}
       </select>
-      <p>ваш выбор: {value}</p>
+      <input
+        className="w-16 mx-4 border rounded text-right"
+        type="number"
+        placeholder={number}
+        min="0"
+        onChange={(event) => setNumber(event.target.value)}
+      />
+      <span>
+        ваш выбор: {value}, {number}
+      </span>
     </div>
   );
 };
 
 export default BattleFront;
-
-//   const [value, setValue] = useState(""); // запоминаем выбор из
-
-//   const options = unitsDataTest.map((unit, index) => {
-//     return <option key={index}>{unit.name}</option>;
-//   });
-
-//   return (
-//     <div>
-//       <select value={value} onChange={(event) => setValue(event.target.value)}>
-//         {options}
-//       </select>
-//       <p>ваш выбор: {value}</p>
-//     </div>
-//   );
-// };

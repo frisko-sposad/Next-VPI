@@ -5,6 +5,8 @@ const BattleCalculator = () => {
   return (
     <div>
       <BattleFront />
+      <BattleFront />
+      <BattleFront />
     </div>
   );
 };

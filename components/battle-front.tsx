@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { unitsData } from "../public/database/units-data";
+import React, { useState } from 'react';
+import { unitsData } from '../public/database/units-data';
 
 const BattleFront = () => {
   //   const unitsType = "Конница";
   //   return (
   //     <div>
   //       <select>
-  //         {unitsData.map((gorupUnit) => {
-  //           if (gorupUnit.name === unitsType) {
-  //             console.log(gorupUnit.name);
-  //             gorupUnit.subRows.map((unitType) => {
+  //         {unitsData.map((groupUnit) => {
+  //           if (groupUnit.name === unitsType) {
+  //             console.log(groupUnit.name);
+  //             groupUnit.subRows.map((unitType) => {
   //               console.log(unitType.name);
 
   //               return <option key={unitType.id}>{unitType.name}</option>;
@@ -25,20 +25,22 @@ const BattleFront = () => {
   //   );
   // };
 
-  const [value, setValue] = useState(""); // запоминаем выбор из
-  const [number, setNumber] = useState("22"); // запоминаем количество
+  const [value, setValue] = useState(''); // запоминаем выбор из
+  const [number, setNumber] = useState('22'); // запоминаем количество
+  // console.log(value);
+  // console.log(number);
 
-  const unitsType = "Пехота";
+  const unitsType = 'Пехота';
 
-  const options = unitsData.map((gorupUnit, index) => {
-    if (gorupUnit.name === unitsType) {
-      const unit = gorupUnit.subRows.map((unit) => {
-        console.log(unit.name);
-        console.log(index);
+  const options = unitsData.map((groupUnit, index) => {
+    if (groupUnit.name === unitsType) {
+      const unit = groupUnit.subRows.map((unit) => {
+        // console.log(unit.name);
+        // console.log(index);
 
         return <option key={unit.id}>{unit.name}</option>;
       });
-      console.log(unit);
+      // console.log(unit);
       return unit;
     }
   });

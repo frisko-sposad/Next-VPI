@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import BattleFront from '../../components/battle-front';
 import { battlefield } from '../../public/database/battlefield';
 import { unitsData } from '../../public/database/units-data';
@@ -13,6 +14,16 @@ const options = unitsData.map((groupUnit, index) => {
 
 const BattleCalculator = () => {
   const [battleUnit, setBattleUnit] = useState(battlefield);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => console.log(data);
+
+  console.log(watch('example')); // watch input value by passing the name of it
 
   const update = (e) => {
     setBattleUnit({
@@ -57,6 +68,17 @@ const BattleCalculator = () => {
       <BattleFront />
       <BattleFront />
       {all}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* register your input into the hook by invoking the "register" function */}
+        <input defaultValue="test" {...register('example')} />
+
+        {/* include validation with required or other standard HTML validation rules */}
+        <input {...register('exampleRequired', { required: true })} />
+        {/* errors will return when field validation fails  */}
+        {errors.exampleRequired && <span>This field is required</span>}
+
+        <input type="submit" />
+      </form>
     </div>
   );
 };

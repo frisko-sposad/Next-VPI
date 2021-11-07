@@ -1,70 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { unitsData } from '../public/database/units-data';
+import { Heroes } from './heroes';
+import { Row } from './row';
 
-const BattleFront = () => {
-  //   const unitsType = "Конница";
-  //   return (
-  //     <div>
-  //       <select>
-  //         {unitsData.map((groupUnit) => {
-  //           if (groupUnit.name === unitsType) {
-  //             console.log(groupUnit.name);
-  //             groupUnit.subRows.map((unitType) => {
-  //               console.log(unitType.name);
+interface BattleFront {
+  player: string;
+  front: string;
+}
 
-  //               return <option key={unitType.id}>{unitType.name}</option>;
-  //             });
-  //           }
-  //         })}
-
-  //         <option>1</option>
-  //         <option>2</option>
-  //         <option>3</option>
-  //       </select>
-  //     </div>
-  //   );
-  // };
-
-  const [value, setValue] = useState(''); // запоминаем выбор из
-  const [number, setNumber] = useState('22'); // запоминаем количество
-  // console.log(value);
-  // console.log(number);
-
-  const unitsType = 'Пехота';
-
+const BattleFront = ({ front, player }: BattleFront) => {
   const options = unitsData.map((groupUnit, index) => {
-    if (groupUnit.name === unitsType) {
-      const unit = groupUnit.subRows.map((unit) => {
-        // console.log(unit.name);
-        // console.log(index);
+    const unit = groupUnit.subRows.map((unit) => {
+      return <option key={unit.id}>{unit.name}</option>;
+    });
 
-        return <option key={unit.id}>{unit.name}</option>;
-      });
-      // console.log(unit);
-      return unit;
-    }
+    return unit;
   });
 
   return (
-    <div>
-      <title>Назавание фланга</title>
-      <select
-        className="border rounded text-right"
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
-      >
-        {options}
-      </select>
-      <input
-        className="w-16 mx-4 border rounded text-right"
-        type="number"
-        placeholder={number}
-        min="0"
-        onChange={(event) => setNumber(event.target.value)}
-      />
-      <span>
-        ваш выбор: {value}, {number}
-      </span>
+    <div className="p-2">
+      <p>{front}</p>
+      <Heroes player={player} front={front} />
+      <Row player={player} rowNumber="1" front={front} />
+      <Row player={player} rowNumber="2" front={front} />
+      <Row player={player} rowNumber="3" front={front} />
+      <Row player={player} rowNumber="4" front={front} />
+      <Row player={player} rowNumber="5" front={front} />
     </div>
   );
 };

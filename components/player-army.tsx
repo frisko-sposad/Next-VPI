@@ -5,12 +5,12 @@ interface PlayerArmy {
   player: string;
 }
 
-enum front {
-  right = 'Правый фланг',
-  defence = 'Тыл',
-  center = 'Центр',
-  left = 'Левый Фланг',
-}
+const front = {
+  right: ['Правый фланг', 'right'],
+  defence: ['Тыл', 'defense'],
+  center: ['Центр', 'center'],
+  left: ['Левый Фланг', 'left'],
+};
 
 const PlayerArmy = ({ player }: PlayerArmy) => {
   if (player === 'player1') {

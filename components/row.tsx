@@ -25,12 +25,12 @@ export function Row({ player, rowNumber = '1', front }: Row): JSX.Element {
     <div className="pt-1">
       <select
         className="border rounded text-right"
-        {...register(`${player}-${front}-unitName-${rowNumber}`)}
+        {...register(`${player}-${front}.${rowNumber}.unitName`)}
       >
         {options}
       </select>
       <input
-        {...register(`${player}-${front}-unitNumber-${rowNumber}`)}
+        {...register(`${player}-${front}.${rowNumber}.unitNumber`)}
         className="w-16 mx-4 border rounded text-right"
         type="number"
         placeholder="0"

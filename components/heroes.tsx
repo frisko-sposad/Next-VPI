@@ -21,7 +21,7 @@ export function Heroes({ player, front }: Heroes): JSX.Element {
     <div>
       <select
         className="border rounded text-right"
-        {...register(`${player}-${front}-Hero`)}
+        {...register(`${player}-${front}.hero`)}
       >
         {options}
       </select>

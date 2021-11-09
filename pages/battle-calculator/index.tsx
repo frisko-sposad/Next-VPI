@@ -11,7 +11,7 @@ const App = () => {
     formState: { errors },
   } = methods;
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => console.log(JSON.parse(data['player1-center'].['1'].unitName));
 
   return (
     <FormProvider {...methods}>

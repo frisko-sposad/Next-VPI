@@ -13,7 +13,7 @@ export function Row({ player, rowNumber = '1', front }: Row): JSX.Element {
   const options = unitsData.map((groupUnit) => {
     const unit = groupUnit.subRows.map((unit) => {
       return (
-        <option key={unit.id} value={unit.name}>
+        <option key={unit.id} value={JSON.stringify(unit)} label={unit.name}>
           {unit.name}
         </option>
       );

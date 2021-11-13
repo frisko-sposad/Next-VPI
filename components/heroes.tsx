@@ -11,7 +11,7 @@ export function Heroes({ player, front }: Heroes): JSX.Element {
 
   const options = heroesData.map((hero) => {
     return (
-      <option key={hero.id} value={hero.heroName}>
+      <option key={hero.id} value={JSON.stringify(hero)} label={hero.heroName}>
         {hero.heroName}
       </option>
     );
@@ -21,10 +21,16 @@ export function Heroes({ player, front }: Heroes): JSX.Element {
     <div>
       <select
         className="border rounded text-right"
-        {...register(`${player}-${front}.hero`)}
+        {...register(`${player}.${front}.hero`)}
       >
         {options}
       </select>
     </div>
   );
+}
+
+{
+  /* <option key={unit.id} value={JSON.stringify(unit)} label={unit.name}>
+          {unit.name}
+        </option> */
 }

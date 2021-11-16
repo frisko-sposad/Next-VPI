@@ -1,4 +1,23 @@
-export const unitsData = [
+export interface UnitData {
+  name: string;
+  subRows: {
+    id: number;
+    name: string;
+    attack: number;
+    health: number;
+    morality: number;
+    size: number;
+    price: number;
+    attackHorseman: number;
+    attackSwordsman: number;
+    attackSpearman: number;
+    cavalryDefense: number;
+    swordDefense: number;
+    spearDefense: number;
+  }[];
+}[]
+
+export const unitsData: UnitData[] = [
   {
     name: "Конница",
 

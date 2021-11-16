@@ -1,6 +1,7 @@
-export function Report({ data }) {
+import { memo } from 'react';
+
+function Report({ data }) {
   const { player1, player2 } = data;
-  console.log(player1);
 
   return (
     <>
@@ -34,3 +35,5 @@ function Player({ front, name }) {
     </>
   );
 }
+
+export default memo(Report);

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import PlayerArmy from '../../components/player-army';
-import { Report } from '../../components/report';
-import { getParseData } from '../../function/function';
+import Report from '../../components/report';
+import { battle } from '../../function/battle';
+import { getParseData } from '../../function/get-parse-data';
+import { UnitData } from '../../public/database/units-data';
 
 const App = () => {
-  const [unitsDate, setUnitsDate] = useState('');
+  const [unitsData, setUnitsData] = useState('');
 
   const methods = useForm();
   const {
@@ -16,9 +18,14 @@ const App = () => {
   } = methods;
 
   // const onSubmit = (data) => console.log(JSON.parse(data['player1-center'].['1'].unitName));
-  const onSubmit = (data: { [x: string]: { hero: string } }) => {
-    setUnitsDate(getParseData(data));
+  const onSubmit = (data: UnitData[]) => {
+    setUnitsData(getParseData(data));
   };
+
+  useEffect(() => {
+    unitsData && battle(unitsData);
+    // console.log(unitsData);
+  }, [unitsData]);
 
   return (
     <>
@@ -36,7 +43,7 @@ const App = () => {
           </div>
         </form>
       </FormProvider>
-      {unitsDate && <Report data={unitsDate} />}
+      {unitsData && <Report data={unitsData} />}
     </>
   );
 };

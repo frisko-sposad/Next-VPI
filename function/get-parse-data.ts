@@ -1,6 +1,7 @@
-export function getParseData(data: {
-  [x: string]: { [x: string]: { hero: string } } | { hero: string };
-}) {
+import { UnitData } from "../public/database/units-data";
+
+export function getParseData(data: UnitData
+) {
   let newData = {};
 
   for (let player in data) {

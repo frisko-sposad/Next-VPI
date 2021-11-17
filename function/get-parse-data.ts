@@ -2,6 +2,10 @@ import { UnitData } from "../public/database/units-data";
 
 export function getParseData(data: UnitData
 ) {
+
+  console.log(data);
+
+
   let newData = {};
 
   for (let player in data) {
@@ -28,5 +32,7 @@ export function getParseData(data: UnitData
     }
     newData[`${player}`] = newDataFront;
   }
+  console.log(newData);
+
   return newData;
 }

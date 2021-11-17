@@ -1,8 +1,16 @@
+export enum Weapon {
+  sword,
+  spear,
+}
+
 export interface UnitData {
   name: string;
   subRows: {
     id: number;
     name: string;
+    horse: boolean;
+    bow: boolean;
+    weapon: Weapon;
     attack: number;
     health: number;
     morality: number;
@@ -25,6 +33,9 @@ export const unitsData: UnitData[] = [
       {
         id: 1,
         name: "Тяж Конница",
+        horse: true,
+        bow: false,
+        weapon: Weapon.sword,
         attack: 60,
         health: 600,
         morality: 50,
@@ -40,6 +51,9 @@ export const unitsData: UnitData[] = [
       {
         id: 2,
         name: "Лёг Конница",
+        horse: true,
+        bow: false,
+        weapon: Weapon.sword,
         attack: 50,
         health: 400,
         morality: 30,
@@ -55,6 +69,9 @@ export const unitsData: UnitData[] = [
       {
         id: 3,
         name: "Конный Лучник",
+        horse: true,
+        bow: true,
+        weapon: Weapon.spear,
         attack: 25,
         health: 400,
         morality: 25,
@@ -76,6 +93,9 @@ export const unitsData: UnitData[] = [
       {
         id: 4,
         name: "Копейщик",
+        horse: false,
+        bow: false,
+        weapon: Weapon.spear,
         attack: 40,
         health: 300,
         morality: 40,
@@ -91,6 +111,9 @@ export const unitsData: UnitData[] = [
       {
         id: 5,
         name: "Мечник",
+        horse: false,
+        bow: false,
+        weapon: Weapon.sword,
         attack: 40,
         health: 300,
         morality: 40,
@@ -106,6 +129,9 @@ export const unitsData: UnitData[] = [
       {
         id: 6,
         name: "Лучник",
+        horse: false,
+        bow: true,
+        weapon: Weapon.sword,
         attack: 20,
         health: 200,
         morality: 20,
@@ -121,6 +147,9 @@ export const unitsData: UnitData[] = [
       {
         id: 7,
         name: "Одичалый",
+        horse: false,
+        bow: false,
+        weapon: Weapon.spear,
         attack: 25,
         health: 400,
         morality: 30,
@@ -136,6 +165,9 @@ export const unitsData: UnitData[] = [
       {
         id: 8,
         name: "Вольные Кланы",
+        horse: false,
+        bow: false,
+        weapon: Weapon.sword,
         attack: 50,
         health: 300,
         morality: 35,
@@ -151,6 +183,9 @@ export const unitsData: UnitData[] = [
       {
         id: 9,
         name: "Ополченец",
+        horse: false,
+        bow: false,
+        weapon: Weapon.spear,
         attack: 25,
         health: 250,
         morality: 25,
@@ -166,6 +201,9 @@ export const unitsData: UnitData[] = [
       {
         id: 10,
         name: "Безупречный",
+        horse: false,
+        bow: false,
+        weapon: Weapon.spear,
         attack: 45,
         health: 400,
         morality: 85,
@@ -181,6 +219,9 @@ export const unitsData: UnitData[] = [
       {
         id: 11,
         name: "Спешенный рыцарь",
+        horse: false,
+        bow: false,
+        weapon: Weapon.sword,
         attack: 60,
         health: 400,
         morality: 50,
@@ -196,6 +237,9 @@ export const unitsData: UnitData[] = [
       {
         id: 12,
         name: "Спешенный всадник",
+        horse: false,
+        bow: false,
+        weapon: Weapon.sword,
         attack: 40,
         health: 300,
         morality: 40,
@@ -211,6 +255,9 @@ export const unitsData: UnitData[] = [
       {
         id: 13,
         name: "Моряк",
+        horse: false,
+        bow: false,
+        weapon: Weapon.sword,
         attack: 35,
         health: 350,
         morality: 40,
@@ -232,6 +279,9 @@ export const unitsData: UnitData[] = [
       {
         id: 14,
         name: "Пинас",
+        horse: false,
+        bow: false,
+        weapon: Weapon.spear,
         attack: 35,
         health: 350,
         morality: 40,
@@ -247,6 +297,9 @@ export const unitsData: UnitData[] = [
       {
         id: 15,
         name: "Ладья",
+        horse: false,
+        bow: false,
+        weapon: Weapon.spear,
         attack: 35,
         health: 350,
         morality: 40,
@@ -262,6 +315,9 @@ export const unitsData: UnitData[] = [
       {
         id: 16,
         name: "Драккар",
+        horse: false,
+        bow: false,
+        weapon: Weapon.spear,
         attack: 35,
         health: 350,
         morality: 40,
@@ -277,6 +333,9 @@ export const unitsData: UnitData[] = [
       {
         id: 17,
         name: "Баркалон",
+        horse: false,
+        bow: false,
+        weapon: Weapon.spear,
         attack: 35,
         health: 350,
         morality: 40,
@@ -292,6 +351,9 @@ export const unitsData: UnitData[] = [
       {
         id: 18,
         name: "Галера",
+        horse: false,
+        bow: false,
+        weapon: Weapon.spear,
         attack: 35,
         health: 350,
         morality: 40,
@@ -307,6 +369,9 @@ export const unitsData: UnitData[] = [
       {
         id: 19,
         name: "Галеон",
+        horse: false,
+        bow: false,
+        weapon: Weapon.spear,
         attack: 35,
         health: 350,
         morality: 40,

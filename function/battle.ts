@@ -44,33 +44,8 @@ interface ParseData {
 
 }
 
-export function battle(unitData: ParseData) {
-  const { player1, player2 } = unitData;
-  fight(player1.center[0], player2.center[0]);
-}
-
-function fight(squad1: Row, squad2: Row) {
-  // console.log("squad1", squad1, "squad2", squad2);
-  let fightSize = 0;
-  squad1.squadUnit.squadNumber <= 0 && console.log("Units p1 not found", squad1.squadUnit.squadNumber)
-  squad2.squadUnit.squadNumber <= 0 && console.log("Units p2 not found", squad2.squadUnit.squadNumber)
-
-
-  if (squad1.squadUnit.squadNumber * squad1.squadUnit.size <= squad2.squadUnit.squadNumber * squad2.squadUnit.size) {
-    fightSize = squad1.squadUnit.squadNumber * squad1.squadUnit.size
-  }
-  else {
-    fightSize = squad2.squadUnit.squadNumber * squad2.squadUnit.size
-  };
-
-  const unitNumberFirstPlayer = Math.round(fightSize / squad1.squadUnit.size);
-  const unitNumberSecondPlayer = Math.round(fightSize / squad2.squadUnit.size);
-  // console.log(unitNumberFirstPlayer, "-", unitNumberSecondPlayer);
-
-  const bonuses = getAttackBonus(squad1.squadUnit, squad2.squadUnit)
-  console.log(bonuses);
-
-}
+let unitsCurrentCenter1;
+let unitsCurrentCenter2;
 
 function getAttackBonus(unit1: squadUnit, unit2: squadUnit) {
 
@@ -88,3 +63,68 @@ function getAttackBonus(unit1: squadUnit, unit2: squadUnit) {
 
   return { weaponBonus1, attackOnCavalryBonus1, weaponBonus2, attackOnCavalryBonus2, attack1, attack2 }
 }
+
+function getFightSize(unit1: squadUnit, unit2: squadUnit): number {
+  let fightSize = 0;
+  unit1.squadNumber <= 0 && console.log("Units p1 not found", unit1.squadNumber)
+  unit2.squadNumber <= 0 && console.log("Units p2 not found", unit2.squadNumber)
+
+
+  if (unit1.squadNumber * unit1.size <= unit2.squadNumber * unit2.size) {
+    fightSize = unit1.squadNumber * unit1.size;
+  }
+  else {
+    fightSize = unit2.squadNumber * unit2.size;
+  };
+  return fightSize;
+}
+
+function getLosses(unit1: squadUnit, unit2: squadUnit, fightSize: number) {
+  // расчёт потерь с 2 знаками после запяток
+  const lossesPlayer1 = Math.floor(unit2.attack * fightSize / unit1.health * 100) / 100;
+  const lossesPlayer2 = Math.floor(unit1.attack * fightSize / unit2.health * 100) / 100;
+  return { lossesPlayer1, lossesPlayer2 }
+}
+
+
+
+function fight({ squadUnit: squadUnit1 }: Row, { squadUnit: squadUnit2 }: Row) {
+  // console.log("squad1", squad1, "squad2", squad2);
+
+  const { squadNumber: squadNumber1, morality: morality1 } = squadUnit1;
+  const { squadNumber: squadNumber2, morality: morality2 } = squadUnit2;
+
+  const fightSize = getFightSize(squadUnit1, squadUnit2);
+  const bonuses = getAttackBonus(squadUnit1, squadUnit2);
+  const { lossesPlayer1, lossesPlayer2 } = getLosses(squadUnit1, squadUnit2, fightSize)
+
+  const unitNumberFirstPlayer = Math.round(fightSize / squadUnit1.size);
+  const unitNumberSecondPlayer = Math.round(fightSize / squadUnit2.size);
+
+  const aliveUnits1 = squadNumber1 - lossesPlayer1;
+  const aliveUnits2 = squadNumber2 - lossesPlayer2;
+
+  const moral1 = aliveUnits1 < squadNumber1 * (100 - morality1) / 100;
+  const moral2 = aliveUnits2 < squadNumber2 * (100 - morality2) / 100;
+
+  unitsCurrentCenter1 = aliveUnits1;
+  unitsCurrentCenter2 = aliveUnits2;
+
+  // console.log(unitNumberFirstPlayer, "-", unitNumberSecondPlayer);
+  console.log({ fightSize, unitNumberFirstPlayer, unitNumberSecondPlayer, lossesPlayer1, lossesPlayer2, aliveUnits1, aliveUnits2, moral1, moral2 });
+
+}
+
+export function battle(unitData: ParseData) {
+  const { player1: { center: center1 }, player2: { center: center2 } } = unitData;
+  let unitsStartCenter1 = center1[0].squadUnit.squadNumber;
+  let unitsStartCenter2 = center2[0].squadUnit.squadNumber;
+  unitsCurrentCenter1 = center1[0].squadUnit.squadNumber;
+  unitsCurrentCenter2 = center2[0].squadUnit.squadNumber;
+
+  fight(center1[0], center2[0]);
+
+  console.log({ unitsStartCenter1, unitsCurrentCenter1, unitsStartCenter2, unitsCurrentCenter2 });
+
+}
+

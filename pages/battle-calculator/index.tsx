@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import PlayerArmy from '../../components/player-army';
-import Report from '../../components/report';
-import { battle } from '../../function/battle';
+import { battle, ParseData } from '../../function/battle';
 import { getParseData } from '../../function/get-parse-data';
 import { UnitData } from '../../public/database/units-data';
 
 const App = () => {
-  const [unitsData, setUnitsData] = useState('');
+  const [unitsData, setUnitsData] = useState({} as ParseData);
 
   const methods = useForm();
   const {
@@ -17,14 +16,12 @@ const App = () => {
     formState: { errors },
   } = methods;
 
-  // const onSubmit = (data) => console.log(JSON.parse(data['player1-center'].['1'].unitName));
   const onSubmit = (data: UnitData[]) => {
     setUnitsData(getParseData(data));
   };
 
   useEffect(() => {
-    unitsData && battle(unitsData);
-    // console.log(unitsData);
+    Object.keys(unitsData).length !== 0 && battle(unitsData);
   }, [unitsData]);
 
   return (
@@ -43,7 +40,7 @@ const App = () => {
           </div>
         </form>
       </FormProvider>
-      {unitsData && <Report data={unitsData} />}
+      {/* {Object.keys(unitsData).length !== 0 && <Report data={unitsData} />} */}
     </>
   );
 };

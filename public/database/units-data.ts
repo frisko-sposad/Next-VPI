@@ -3,26 +3,28 @@ export enum Weapon {
   spear,
 }
 
+export interface squadUnit {
+  id: number;
+  name: string;
+  horse: boolean;
+  bow: boolean;
+  weapon: Weapon;
+  attack: number;
+  health: number;
+  morality: number;
+  size: number;
+  price: number;
+  attackHorseman: number;
+  attackSwordsman: number;
+  attackSpearman: number;
+  cavalryDefense: number;
+  swordDefense: number;
+  spearDefense: number;
+}
+
 export interface UnitData {
   name: string;
-  subRows: {
-    id: number;
-    name: string;
-    horse: boolean;
-    bow: boolean;
-    weapon: Weapon;
-    attack: number;
-    health: number;
-    morality: number;
-    size: number;
-    price: number;
-    attackHorseman: number;
-    attackSwordsman: number;
-    attackSpearman: number;
-    cavalryDefense: number;
-    swordDefense: number;
-    spearDefense: number;
-  }[];
+  subRows: squadUnit[];
 }[]
 
 export const unitsData: UnitData[] = [

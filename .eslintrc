@@ -1,3 +1,99 @@
+// {
+//   "extends": ["next", "next/core-web-vitals"]
+// }
+// {
+//   "env": {
+//     "browser": true,
+//     "es6": true
+//   },
+//   "extends": [
+//     "airbnb",
+//     "plugin:jest/recommended",
+//     "plugin:@typescript-eslint/recommended",
+//     "prettier/@typescript-eslint",
+//     "plugin:react/recommended",
+//     "plugin:react-hooks/recommended",
+//     "plugin:@typescript-eslint/recommended",
+//     "plugin:import/typescript",
+//     "prettier",
+//     "prettier/react",
+//     "prettier/@typescript-eslint"
+//   ],
+//   "parserOptions": {
+//     "ecmaFeatures": {
+//       "jsx": true
+//     },
+//     "sourceType": "module"
+//   },
+//   "plugins": [
+//     "import",
+//     "jest",
+//     "react",
+//     "react-hooks",
+//     "@typescript-eslint",
+//     "prettier"
+//   ],
+//   "rules": {
+//     "no-shadow": "off",
+//     "@typescript-eslint/no-shadow": [
+//       "error"
+//     ],
+//     "react/jsx-filename-extension": [
+//       1,
+//       {
+//         "extensions": [
+//           ".js",
+//           ".jsx",
+//           ".ts",
+//           ".tsx"
+//         ]
+//       }
+//     ],
+//     "react/prop-types": 0,
+//     "prettier/prettier": "error",
+//     "react-hooks/rules-of-hooks": "error",
+//     "react-hooks/exhaustive-deps": "error",
+//     "react/require-default-props": 0,
+//     "no-use-before-define": 0,
+//     "import/no-unresolved": [
+//       2,
+//       {
+//         "commonjs": false
+//       }
+//     ],
+//     "@typescript-eslint/no-use-before-define": 1,
+//     "import/extensions": [
+//       "error",
+//       "never"
+//     ],
+//     "camelcase": "off",
+//     "jsx-a11y/no-static-element-interactions": 0,
+//     "jsx-a11y/click-events-have-key-events": 0,
+//     "react/jsx-props-no-spreading": "off"
+//   },
+//   "parser": "@typescript-eslint/parser"
+// }
 {
-  "extends": ["next", "next/core-web-vitals"]
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
+  "rules": {}
 }

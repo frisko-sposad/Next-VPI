@@ -4,10 +4,10 @@ import { unitsData } from '../public/database/units-data';
 interface Row {
   player: string;
   rowNumber: string;
-  front: string;
+  flank: string;
 }
 
-export function Row({ player, rowNumber = '1', front }: Row): JSX.Element {
+export function Row({ player, rowNumber = '1', flank }: Row): JSX.Element {
   const { register } = useFormContext();
 
   const options = unitsData.map((groupUnit) => {
@@ -25,12 +25,12 @@ export function Row({ player, rowNumber = '1', front }: Row): JSX.Element {
     <div className="pt-1">
       <select
         className="border rounded text-right"
-        {...register(`${player}.${front}.${rowNumber}.unitData`)}
+        {...register(`${player}.${flank}.${rowNumber}.unitData`)}
       >
         {options}
       </select>
       <input
-        {...register(`${player}.${front}.${rowNumber}.unitNumber`)}
+        {...register(`${player}.${flank}.${rowNumber}.unitNumber`)}
         className="w-16 mx-4 border rounded text-right"
         type="number"
         placeholder="0"

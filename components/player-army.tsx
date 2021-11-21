@@ -1,11 +1,11 @@
 import React from 'react';
-import BattleFront from './battle-front';
+import BattleFlank from './battle-flank';
 
 interface PlayerArmy {
   player: string;
 }
 
-const front = {
+const flank = {
   right: ['Правый фланг', 'right'],
   defence: ['Тыл', 'defense'],
   center: ['Центр', 'center'],
@@ -17,14 +17,14 @@ const PlayerArmy = ({ player }: PlayerArmy) => {
     return (
       <div className="px-10">
         <div className="flex justify-start">
-          <BattleFront player={player} front={front.right} />
+          <BattleFlank player={player} flank={flank.right} />
         </div>
         <div className="flex">
-          <BattleFront player={player} front={front.defence} />
-          <BattleFront player={player} front={front.center} />
+          <BattleFlank player={player} flank={flank.defence} />
+          <BattleFlank player={player} flank={flank.center} />
         </div>
         <div className="flex justify-start">
-          <BattleFront player={player} front={front.left} />
+          <BattleFlank player={player} flank={flank.left} />
         </div>
       </div>
     );
@@ -32,15 +32,15 @@ const PlayerArmy = ({ player }: PlayerArmy) => {
     return (
       <div className="px-10">
         <div className="flex justify-end">
-          <BattleFront player={player} front={front.right} />
+          <BattleFlank player={player} flank={flank.right} />
         </div>
 
         <div className="flex">
-          <BattleFront player={player} front={front.center} />
-          <BattleFront player={player} front={front.defence} />
+          <BattleFlank player={player} flank={flank.center} />
+          <BattleFlank player={player} flank={flank.defence} />
         </div>
         <div className="flex justify-end">
-          <BattleFront player={player} front={front.left} />
+          <BattleFlank player={player} flank={flank.left} />
         </div>
       </div>
     );

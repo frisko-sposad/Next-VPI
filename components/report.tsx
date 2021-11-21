@@ -5,10 +5,10 @@ function Report({ data }) {
 
   return (
     <>
-      <Player front={player1.right} name="Player1-right" />
-      <Player front={player1.left} name="Player1-left" />
-      <Player front={player1.center} name="Player1-center" />
-      <Player front={player1.defense} name="Player1-defense" />
+      <Player flank={player1.right} name="Player1-right" />
+      <Player flank={player1.left} name="Player1-left" />
+      <Player flank={player1.center} name="Player1-center" />
+      <Player flank={player1.defense} name="Player1-defense" />
     </>
   );
 }
@@ -17,8 +17,8 @@ function Cell({ value }): JSX.Element {
   return <span className="px-1">{value}</span>;
 }
 
-function Player({ front, name }) {
-  const frontReport = front.map((squad, index) => {
+function Player({ flank, name }) {
+  const flankReport = flank.map((squad, index) => {
     return (
       <div key={`${index}-${squad.squadUnit.id}`}>
         <Cell value={squad.squadUnit.name} />
@@ -31,7 +31,7 @@ function Player({ front, name }) {
   return (
     <>
       <div>{name}</div>
-      {frontReport}
+      {flankReport}
     </>
   );
 }

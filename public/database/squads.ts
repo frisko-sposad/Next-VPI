@@ -1,3 +1,4 @@
+// вроде не используется или для графической версии
 export const squads = [
   { squadid: 1, locationX: 0, locationY: 0, size: 50, unitType: "Тяж Конница" },
   {

@@ -9,14 +9,14 @@ export function getParseData(data: UnitData
   let newData = {};
 
   for (let player in data) {
-    let newDataFront = {};
-    for (let front in data[player]) {
+    let newDataFlank = {};
+    for (let flank in data[player]) {
       let newDataSquad = [];
-      for (let squad in data[player][front]) {
-        let squadInfo = data[player][front][squad];
+      for (let squad in data[player][flank]) {
+        let squadInfo = data[player][flank][squad];
 
         const squadNumber = squadInfo.unitNumber;
-        const squadHero = JSON.parse(data[player][front].hero);
+        const squadHero = JSON.parse(data[player][flank].hero);
         const squadUnit = squadInfo.unitData && JSON.parse(squadInfo.unitData);
 
         if (squadUnit) {
@@ -28,9 +28,9 @@ export function getParseData(data: UnitData
         }
       }
 
-      newDataFront[`${front}`] = newDataSquad;
+      newDataFlank[`${flank}`] = newDataSquad;
     }
-    newData[`${player}`] = newDataFront;
+    newData[`${player}`] = newDataFlank;
   }
   // console.log(newData);
 

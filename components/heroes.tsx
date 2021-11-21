@@ -3,10 +3,10 @@ import { heroesData } from '../public/database/heroes-data';
 
 interface Heroes {
   player: string;
-  front: string;
+  flank: string;
 }
 
-export function Heroes({ player, front }: Heroes): JSX.Element {
+export function Heroes({ player, flank }: Heroes): JSX.Element {
   const { register } = useFormContext();
 
   const options = heroesData.map((hero) => {
@@ -21,7 +21,7 @@ export function Heroes({ player, front }: Heroes): JSX.Element {
     <div>
       <select
         className="border rounded text-right"
-        {...register(`${player}.${front}.hero`)}
+        {...register(`${player}.${flank}.hero`)}
       >
         {options}
       </select>

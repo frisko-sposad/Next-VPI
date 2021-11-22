@@ -1,30 +1,26 @@
-import React, { useMemo } from "react";
-import { useExpanded, useTable } from "react-table";
-import { unitsData } from "../../public/database/units-data";
+import React, { useMemo } from 'react';
+import { useExpanded, useTable } from 'react-table';
+import { unitsData } from '../../public/database/units-data';
 
 const Table = ({ columns: userColumns, data }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns: userColumns, data }, useExpanded);
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
+    { columns: userColumns, data },
+    useExpanded,
+  );
 
   return (
     <table {...getTableProps()} className="border-0">
       <thead>
         {headerGroups.map((headerGroup) => (
           // eslint-disable-next-line react/jsx-key
-          <tr
-            className="p-2 text-center border-2 bg-red-50"
-            {...headerGroup.getHeaderGroupProps()}
-          >
+          <tr className="p-2 text-center border-2 bg-red-50" {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => {
               const columnProps = column.getHeaderProps();
 
               return (
                 <React.Fragment key={columnProps.key}>
-                  <th
-                    className="p-2 text-center border-2 border-white"
-                    {...columnProps}
-                  >
-                    {column.render("Header")}
+                  <th className="p-2 text-center border-2 border-white" {...columnProps}>
+                    {column.render('Header')}
                   </th>
                 </React.Fragment>
               );
@@ -42,11 +38,8 @@ const Table = ({ columns: userColumns, data }) => {
                 {row.cells.map((cell) => {
                   return (
                     // eslint-disable-next-line react/jsx-key
-                    <td
-                      className="p-2 text-right border-2 bg-green-50 border-white"
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render("Cell")}
+                    <td className="p-2 text-right border-2 bg-green-50 border-white" {...cell.getCellProps()}>
+                      {cell.render('Cell')}
                     </td>
                   );
                 })}
@@ -65,8 +58,8 @@ const Units = () => {
   const columns = useMemo(
     () => [
       {
-        id: "expander",
-        Header: "",
+        id: 'expander',
+        Header: '',
         Cell: ({ row }) =>
           row.canExpand ? (
             <span
@@ -76,70 +69,82 @@ const Units = () => {
                 },
               })}
             >
-              {row.isExpanded ? "-" : "+"}
+              {row.isExpanded ? '-' : '+'}
             </span>
           ) : null,
       },
       {
-        Header: "id",
-        accessor: "id",
+        Header: 'id',
+        accessor: 'id',
       },
       {
-        Header: "name",
-        accessor: "name",
+        Header: 'name',
+        accessor: 'name',
       },
       {
-        Header: "attack",
-        accessor: "attack",
+        Header: 'weapon',
+        accessor: 'weapon',
       },
       {
-        Header: "morality",
-        accessor: "morality",
+        Header: 'attack',
+        accessor: 'attack',
       },
       {
-        Header: "size",
-        accessor: "size",
+        Header: 'distanceAttack',
+        accessor: 'distanceAttack',
       },
       {
-        Header: "price",
-        accessor: "price",
+        Header: 'health',
+        accessor: 'health',
       },
       {
-        Header: "Attack",
+        Header: 'morality',
+        accessor: 'morality',
+      },
+      {
+        Header: 'size',
+        accessor: 'size',
+      },
+      {
+        Header: 'price',
+        accessor: 'price',
+      },
+      {
+        Header: 'Attack',
         columns: [
           {
-            Header: "Horseman",
-            accessor: "attackHorseman",
+            Header: 'Horseman',
+            accessor: 'attackHorseman',
           },
           {
-            Header: "Swordsman",
-            accessor: "attackSwordsman",
+            Header: 'Swordsman',
+            accessor: 'attackSwordsman',
           },
           {
-            Header: "Spearman",
-            accessor: "attackSpearman",
+            Header: 'Spearman',
+            accessor: 'attackSpearman',
           },
         ],
       },
       {
-        Header: "Defense",
+        Header: 'Defense',
         columns: [
           {
-            Header: "cavalry",
-            accessor: "cavalryDefense",
+            Header: 'cavalry',
+            accessor: 'cavalryDefense',
           },
           {
-            Header: "sword",
-            accessor: "swordDefense",
+            Header: 'sword',
+            accessor: 'swordDefense',
           },
           {
-            Header: "spear",
-            accessor: "spearDefense",
+            Header: 'spear',
+            accessor: 'spearDefense',
           },
         ],
       },
     ],
-    []
+    [],
   );
 
   return (

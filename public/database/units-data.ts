@@ -3,13 +3,14 @@ export enum Weapon {
   spear,
 }
 
-export interface squadUnit {
+export interface squadUnitOld {
   id: number;
   name: string;
   horse: boolean;
   bow: boolean;
   weapon: Weapon;
   attack: number;
+  distanceAttack: number;
   health: number;
   morality: number;
   size: number;
@@ -24,7 +25,7 @@ export interface squadUnit {
 
 export interface UnitData {
   name: string;
-  subRows: squadUnit[];
+  subRows: squadUnitOld[];
 }[]
 
 export const unitsData: UnitData[] = [
@@ -39,6 +40,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.sword,
         attack: 60,
+        distanceAttack: 0,
         health: 600,
         morality: 50,
         size: 3,
@@ -57,6 +59,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.sword,
         attack: 50,
+        distanceAttack: 0,
         health: 400,
         morality: 30,
         size: 3,
@@ -73,8 +76,9 @@ export const unitsData: UnitData[] = [
         name: "Конный Лучник",
         horse: true,
         bow: true,
-        weapon: Weapon.spear,
+        weapon: Weapon.sword,
         attack: 25,
+        distanceAttack: 15,
         health: 400,
         morality: 25,
         size: 3,
@@ -99,6 +103,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.spear,
         attack: 40,
+        distanceAttack: 0,
         health: 300,
         morality: 40,
         size: 2,
@@ -117,6 +122,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.sword,
         attack: 40,
+        distanceAttack: 0,
         health: 300,
         morality: 40,
         size: 2,
@@ -135,6 +141,7 @@ export const unitsData: UnitData[] = [
         bow: true,
         weapon: Weapon.sword,
         attack: 20,
+        distanceAttack: 20,
         health: 200,
         morality: 20,
         size: 2,
@@ -153,6 +160,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.spear,
         attack: 25,
+        distanceAttack: 0,
         health: 400,
         morality: 30,
         size: 2,
@@ -171,6 +179,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.sword,
         attack: 50,
+        distanceAttack: 0,
         health: 300,
         morality: 35,
         size: 2,
@@ -189,6 +198,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.spear,
         attack: 25,
+        distanceAttack: 0,
         health: 250,
         morality: 25,
         size: 2,
@@ -207,6 +217,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.spear,
         attack: 45,
+        distanceAttack: 0,
         health: 400,
         morality: 85,
         size: 2,
@@ -225,6 +236,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.sword,
         attack: 60,
+        distanceAttack: 0,
         health: 400,
         morality: 50,
         size: 2,
@@ -243,6 +255,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.sword,
         attack: 40,
+        distanceAttack: 0,
         health: 300,
         morality: 40,
         size: 2,
@@ -261,6 +274,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.sword,
         attack: 35,
+        distanceAttack: 0,
         health: 350,
         morality: 40,
         size: 2,
@@ -270,6 +284,25 @@ export const unitsData: UnitData[] = [
         attackSpearman: 1,
         cavalryDefense: 1,
         swordDefense: 1.4,
+        spearDefense: 1,
+      },
+      {
+        id: 14,
+        name: "Арбалетчик",
+        horse: false,
+        bow: true,
+        weapon: Weapon.sword,
+        attack: 20,
+        distanceAttack: 25,
+        health: 200,
+        morality: 20,
+        size: 2,
+        price: 15,
+        attackHorseman: 1,
+        attackSwordsman: 1,
+        attackSpearman: 1,
+        cavalryDefense: 1,
+        swordDefense: 1,
         spearDefense: 1,
       },
     ],
@@ -285,6 +318,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.spear,
         attack: 35,
+        distanceAttack: 0,
         health: 350,
         morality: 40,
         size: 2,
@@ -303,6 +337,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.spear,
         attack: 35,
+        distanceAttack: 0,
         health: 350,
         morality: 40,
         size: 2,
@@ -321,6 +356,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.spear,
         attack: 35,
+        distanceAttack: 0,
         health: 350,
         morality: 40,
         size: 2,
@@ -339,6 +375,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.spear,
         attack: 35,
+        distanceAttack: 0,
         health: 350,
         morality: 40,
         size: 2,
@@ -357,6 +394,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.spear,
         attack: 35,
+        distanceAttack: 0,
         health: 350,
         morality: 40,
         size: 2,
@@ -375,6 +413,7 @@ export const unitsData: UnitData[] = [
         bow: false,
         weapon: Weapon.spear,
         attack: 35,
+        distanceAttack: 0,
         health: 350,
         morality: 40,
         size: 2,

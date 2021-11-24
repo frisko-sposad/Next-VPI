@@ -40,7 +40,7 @@ export interface ParseData {
 }
 
 export function battle(unitData: ParseData): void {
-  const roundNumber = 7;
+  const roundNumber = 1;
   const flankRows = {
     rightFlank1: 0,
     rightFlank2: 0,

@@ -55,22 +55,29 @@ function getDistanceAttackBonus(
 ) {
   // расчёт лучников
   const arr = [];
+  let remainsSizeArcher = fightSize;
+  let archerNumber = 0;
+  let bonus = 0;
   for (let row = row1 + 1; row < 5; row++) {
-    let bonus = 0;
-    let archerNumber = 0;
-    let currentArcher = fightSize;
     if (center1[row].squadUnit.bow) {
-      const { name, squadNumber } = center1[row].squadUnit;
+      const { name, squadNumber, size, distanceAttack } = center1[row].squadUnit;
 
-      arr.push({ name, squadNumber });
-      // if (currentArcher - center1[row].squadUnit.squadNumber > 0) {
-      //   archerNumber = center1[row].squadUnit.squadNumber;
-      //
-      //   // currentArcher = fightSize - center1[row].squadUnit.squadNumber;
-      // } else archerNumber = currentArcher;
-      console.log(arr);
+      if (squadNumber > remainsSizeArcher / size) {
+        remainsSizeArcher = Math.round(remainsSizeArcher / size);
+        archerNumber = remainsSizeArcher;
+        console.log({ archerNumber, bonus: archerNumber * distanceAttack, distanceAttack });
+        bonus = bonus + archerNumber * distanceAttack;
+        arr.push({ name, archerNumber, size });
+        break;
+      } else {
+        remainsSizeArcher = (remainsSizeArcher / size - squadNumber) * size;
+        archerNumber = squadNumber;
+        bonus = bonus + archerNumber * distanceAttack;
+        arr.push({ name, archerNumber, size });
+        console.log({ archerNumber, bonus: archerNumber * distanceAttack, distanceAttack });
+      }
 
-      bonus = bonus + center1[row].squadUnit.distanceAttack * archerNumber;
+      // bonus = bonus + center1[row].squadUnit.distanceAttack * archerNumber;
       console.log(
         row,
         fightSize,
@@ -82,6 +89,7 @@ function getDistanceAttackBonus(
       );
     }
   }
+  console.log(bonus);
 }
 
 export function fight(

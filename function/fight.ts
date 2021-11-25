@@ -37,59 +37,44 @@ function getFightSize(unit1: squadUnit, unit2: squadUnit): number {
   return fightSize;
 }
 
-function getLosses(unit1: squadUnit, unit2: squadUnit, fightSize: number, attack1: number, attack2: number) {
+function getLosses(
+  unit1: squadUnit,
+  unit2: squadUnit,
+  fightSize: number,
+  attack1: number,
+  attack2: number,
+  distanceAttackBonus1: number,
+  distanceAttackBonus2: number,
+) {
   // расчёт потерь с 2 знаками после запятой
   console.log(attack1, attack2);
 
-  const lossesPlayer1 = Math.floor(((attack2 * fightSize) / unit1.health) * 100) / 100;
-  const lossesPlayer2 = Math.floor(((attack1 * fightSize) / unit2.health) * 100) / 100;
+  const lossesPlayer1 = Math.floor(((attack2 * fightSize + distanceAttackBonus1) / unit1.health) * 100) / 100;
+  const lossesPlayer2 = Math.floor(((attack1 * fightSize + distanceAttackBonus2) / unit2.health) * 100) / 100;
   return { lossesPlayer1, lossesPlayer2 };
 }
 
-function getDistanceAttackBonus(
-  center1: [FlankRow],
-  center2: [FlankRow],
-  row1: number,
-  row2: number,
-  fightSize: number,
-) {
+function getDistanceAttackBonus(flank1: [FlankRow], currentRow: number, fightSize: number) {
   // расчёт лучников
-  const arr = [];
   let remainsSizeArcher = fightSize;
   let archerNumber = 0;
   let bonus = 0;
-  for (let row = row1 + 1; row < 5; row++) {
-    if (center1[row].squadUnit.bow) {
-      const { name, squadNumber, size, distanceAttack } = center1[row].squadUnit;
-
+  for (let row = currentRow + 1; row < 5; row++) {
+    if (flank1[row].squadUnit.bow) {
+      const { squadNumber, size, distanceAttack } = flank1[row].squadUnit;
       if (squadNumber > remainsSizeArcher / size) {
         remainsSizeArcher = Math.round(remainsSizeArcher / size);
         archerNumber = remainsSizeArcher;
-        console.log({ archerNumber, bonus: archerNumber * distanceAttack, distanceAttack });
         bonus = bonus + archerNumber * distanceAttack;
-        arr.push({ name, archerNumber, size });
         break;
       } else {
         remainsSizeArcher = (remainsSizeArcher / size - squadNumber) * size;
         archerNumber = squadNumber;
         bonus = bonus + archerNumber * distanceAttack;
-        arr.push({ name, archerNumber, size });
-        console.log({ archerNumber, bonus: archerNumber * distanceAttack, distanceAttack });
       }
-
-      // bonus = bonus + center1[row].squadUnit.distanceAttack * archerNumber;
-      console.log(
-        row,
-        fightSize,
-        center1[row].squadUnit.distanceAttack,
-        '*',
-        center1[row].squadUnit.squadNumber,
-        '=',
-        bonus,
-      );
     }
   }
-  console.log(bonus);
+  return bonus;
 }
 
 export function fight(
@@ -107,25 +92,31 @@ export function fight(
   const squadNumber2 = Number(currentUnitsCenter2 ? currentUnitsCenter2 : squad2.squadNumber);
 
   const fightSize = getFightSize(squad1, squad2);
-  const DistanceAttackBonus = getDistanceAttackBonus(center1, center2, row1, row2, fightSize);
-  const { attack1, attack2 } = getAttackBonus(squad1, squad2, hero1, hero2);
-  const { lossesPlayer1, lossesPlayer2 } = getLosses(squad1, squad2, fightSize, attack1, attack2);
+  const distanceAttackBonus1 = getDistanceAttackBonus(center1, row1, fightSize);
+  const distanceAttackBonus2 = getDistanceAttackBonus(center2, row2, fightSize);
 
-  console.log(
-    squadNumber1,
-    squad1.name,
-    'против',
-    squadNumber2,
-    squad2.name,
-    'потери:',
-    lossesPlayer1,
-    lossesPlayer2,
-    'attack',
+  const { attack1, attack2 } = getAttackBonus(squad1, squad2, hero1, hero2);
+
+  const { lossesPlayer1, lossesPlayer2 } = getLosses(
+    squad1,
+    squad2,
+    fightSize,
     attack1,
     attack2,
+    distanceAttackBonus1,
+    distanceAttackBonus2,
   );
-  // const unitNumberFirstPlayer = Math.round(fightSize / squad1.size);
-  // const unitNumberSecondPlayer = Math.round(fightSize / squad2.size);
+  // console.log({
+  //   lossesPlayer1,
+  //   lossesPlayer2,
+  //   number1: squad1.squadNumber,
+  //   number2: squad2.squadNumber,
+  //   fightSize,
+  //   attack1: attack1 * squad1.squadNumber,
+  //   attack2: attack2 * squad2.squadNumber,
+  //   distanceAttackBonus1,
+  //   distanceAttackBonus2,
+  // });
 
   const aliveUnits1 = Math.floor((squadNumber1 - lossesPlayer1) * 100) / 100;
   const aliveUnits2 = Math.floor((squadNumber2 - lossesPlayer2) * 100) / 100;

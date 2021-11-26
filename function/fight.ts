@@ -47,21 +47,19 @@ function getLosses(
   distanceAttackBonus2: number,
 ) {
   // расчёт потерь с 2 знаками после запятой
-  console.log(attack1, attack2);
-
   const lossesPlayer1 = Math.floor(((attack2 * fightSize + distanceAttackBonus1) / unit1.health) * 100) / 100;
   const lossesPlayer2 = Math.floor(((attack1 * fightSize + distanceAttackBonus2) / unit2.health) * 100) / 100;
   return { lossesPlayer1, lossesPlayer2 };
 }
 
-function getDistanceAttackBonus(flank1: [FlankRow], currentRow: number, fightSize: number) {
+function getDistanceAttackBonus(flank: [FlankRow], currentRow: number, fightSize: number) {
   // расчёт лучников
   let remainsSizeArcher = fightSize;
   let archerNumber = 0;
   let bonus = 0;
   for (let row = currentRow + 1; row < 5; row++) {
-    if (flank1[row].squadUnit.bow) {
-      const { squadNumber, size, distanceAttack } = flank1[row].squadUnit;
+    if (flank[row].squadUnit.bow) {
+      const { squadNumber, size, distanceAttack } = flank[row].squadUnit;
       if (squadNumber > remainsSizeArcher / size) {
         remainsSizeArcher = Math.round(remainsSizeArcher / size);
         archerNumber = remainsSizeArcher;
@@ -78,22 +76,22 @@ function getDistanceAttackBonus(flank1: [FlankRow], currentRow: number, fightSiz
 }
 
 export function fight(
-  center1: [FlankRow],
-  center2: [FlankRow],
+  flank1: [FlankRow],
+  flank2: [FlankRow],
   row1: number,
   row2: number,
-  currentUnitsCenter1?: number,
-  currentUnitsCenter2?: number,
+  currentUnitsFlank1?: number,
+  currentUnitsFlank2?: number,
 ) {
-  const { squadUnit: squad1, squadHero: hero1 } = center1[row1];
-  const { squadUnit: squad2, squadHero: hero2 } = center2[row2];
+  const { squadUnit: squad1, squadHero: hero1 } = flank1[row1];
+  const { squadUnit: squad2, squadHero: hero2 } = flank2[row2];
 
-  const squadNumber1 = Number(currentUnitsCenter1 ? currentUnitsCenter1 : squad1.squadNumber);
-  const squadNumber2 = Number(currentUnitsCenter2 ? currentUnitsCenter2 : squad2.squadNumber);
+  const squadNumber1 = Number(currentUnitsFlank1 ? currentUnitsFlank1 : squad1.squadNumber);
+  const squadNumber2 = Number(currentUnitsFlank2 ? currentUnitsFlank2 : squad2.squadNumber);
 
   const fightSize = getFightSize(squad1, squad2);
-  const distanceAttackBonus1 = getDistanceAttackBonus(center1, row1, fightSize);
-  const distanceAttackBonus2 = getDistanceAttackBonus(center2, row2, fightSize);
+  const distanceAttackBonus1 = getDistanceAttackBonus(flank1, row1, fightSize);
+  const distanceAttackBonus2 = getDistanceAttackBonus(flank2, row2, fightSize);
 
   const { attack1, attack2 } = getAttackBonus(squad1, squad2, hero1, hero2);
 
@@ -106,20 +104,9 @@ export function fight(
     distanceAttackBonus1,
     distanceAttackBonus2,
   );
-  // console.log({
-  //   lossesPlayer1,
-  //   lossesPlayer2,
-  //   number1: squad1.squadNumber,
-  //   number2: squad2.squadNumber,
-  //   fightSize,
-  //   attack1: attack1 * squad1.squadNumber,
-  //   attack2: attack2 * squad2.squadNumber,
-  //   distanceAttackBonus1,
-  //   distanceAttackBonus2,
-  // });
 
-  const aliveUnits1 = Math.floor((squadNumber1 - lossesPlayer1) * 100) / 100;
-  const aliveUnits2 = Math.floor((squadNumber2 - lossesPlayer2) * 100) / 100;
+  const aliveUnits1 = Math.floor((squadNumber1 - lossesPlayer1 > 0 ? squadNumber1 - lossesPlayer1 : 0) * 100) / 100;
+  const aliveUnits2 = Math.floor((squadNumber2 - lossesPlayer2 > 0 ? squadNumber2 - lossesPlayer2 : 0) * 100) / 100;
 
-  return { aliveUnits1, aliveUnits2 };
+  return { aliveUnits1, aliveUnits2, lossesPlayer1, lossesPlayer2 };
 }

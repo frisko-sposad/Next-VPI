@@ -1,6 +1,6 @@
 import { Hero } from '../public/database/heroes-data';
 import { squadUnitOld, Weapon } from '../public/database/units-data';
-import { fight } from './fight';
+import { fight, getMoral } from './fight';
 
 export interface squadUnit extends squadUnitOld {
   id: number;
@@ -68,9 +68,6 @@ export function battle(unitData: ParseData): void {
       const squadUnit1 = center1[flankRows.centerFlank1].squadUnit;
       const squadUnit2 = center2[flankRows.centerFlank2].squadUnit;
 
-      const startUnitNumber1 = squadUnit1.squadNumber;
-      const startUnitNumber2 = squadUnit2.squadNumber;
-
       const { aliveUnits1, aliveUnits2, lossesPlayer1, lossesPlayer2 } = fight(
         center1,
         center2,
@@ -80,28 +77,39 @@ export function battle(unitData: ParseData): void {
         currentUnitsCenter2,
       );
 
-      currentUnitsCenter1 = aliveUnits1;
-      currentUnitsCenter2 = aliveUnits2;
-      console.log(currentUnitsCenter2);
-
-      const moral1 =
-        currentUnitsCenter1 <= (startUnitNumber1 * (100 - center1[flankRows.centerFlank1].squadUnit.morality)) / 100;
-      const moral2 =
-        currentUnitsCenter2 <= (startUnitNumber2 * (100 - center2[flankRows.centerFlank1].squadUnit.morality)) / 100;
-
-      // Проверка морали, если не проходит то берём следующий ряд, если проходит то подставляем выживших юнитов
       lossData.push({
         round,
         name1: squadUnit1.name,
         name2: squadUnit2.name,
-        number1: squadUnit1.squadNumber,
-        number2: squadUnit2.squadNumber,
+        number1: currentUnitsCenter1 ? currentUnitsCenter1 : squadUnit1.squadNumber,
+        number2: currentUnitsCenter2 ? currentUnitsCenter2 : squadUnit2.squadNumber,
         losses1: lossesPlayer1,
         losses2: lossesPlayer2,
+        alive1: (currentUnitsCenter1 ? currentUnitsCenter1 : squadUnit1.squadNumber) - lossesPlayer1,
+        alive2: (currentUnitsCenter2 ? currentUnitsCenter2 : squadUnit2.squadNumber) - lossesPlayer2,
       });
+      currentUnitsCenter1 = aliveUnits1;
+      currentUnitsCenter2 = aliveUnits2;
+
+      const { moral1, moral2 } = getMoral(
+        currentUnitsCenter1,
+        currentUnitsCenter2,
+        squadUnit1.squadNumber,
+        squadUnit2.squadNumber,
+        center1[flankRows.centerFlank1].squadUnit.morality,
+        center2[flankRows.centerFlank2].squadUnit.morality,
+      );
+      // console.log(moral1, moral2);
+      // const moral1 =
+      //   currentUnitsCenter1 <=
+      //   (squadUnit1.squadNumber * (100 - center1[flankRows.centerFlank1].squadUnit.morality)) / 100;
+      // const moral2 =
+      //   currentUnitsCenter2 <=
+      //   (squadUnit2.squadNumber * (100 - center2[flankRows.centerFlank1].squadUnit.morality)) / 100;
+
+      // Проверка морали, если не проходит то берём следующий ряд, если проходит то подставляем выживших юнитов
       if (moral1) {
         flankRows.centerFlank1++;
-        liveUnits1.push({ name1: squadUnit1.name, currentUnitsCenter1 });
         currentUnitsCenter1 = undefined;
       } else {
         currentUnitsCenter1 = aliveUnits1;
@@ -109,7 +117,6 @@ export function battle(unitData: ParseData): void {
 
       if (moral2) {
         flankRows.centerFlank2++;
-        liveUnits2.push({ name2: squadUnit2.name, currentUnitsCenter2 });
         currentUnitsCenter2 = undefined;
       } else {
         currentUnitsCenter2 = aliveUnits2;
@@ -117,6 +124,4 @@ export function battle(unitData: ParseData): void {
     }
   }
   console.log(lossData);
-  console.log(liveUnits1);
-  console.log(liveUnits2);
 }

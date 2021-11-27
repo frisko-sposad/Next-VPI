@@ -34,6 +34,7 @@ function getFightSize(unit1: squadUnit, unit2: squadUnit): number {
   } else {
     fightSize = unit2.squadNumber * unit2.size;
   }
+
   return fightSize;
 }
 
@@ -47,8 +48,12 @@ function getLosses(
   distanceAttackBonus2: number,
 ) {
   // расчёт потерь с 2 знаками после запятой
-  const lossesPlayer1 = Math.floor(((attack2 * fightSize + distanceAttackBonus1) / unit1.health) * 100) / 100;
-  const lossesPlayer2 = Math.floor(((attack1 * fightSize + distanceAttackBonus2) / unit2.health) * 100) / 100;
+  const lossesPlayer1 =
+    Math.floor((((attack2 * fightSize) / unit1.size + distanceAttackBonus2) / unit1.health) * 100) / 100;
+  const lossesPlayer2 =
+    Math.floor((((attack1 * fightSize) / unit1.size + distanceAttackBonus1) / unit2.health) * 100) / 100;
+  console.log({ lossesPlayer1, lossesPlayer2 });
+
   return { lossesPlayer1, lossesPlayer2 };
 }
 
@@ -73,6 +78,19 @@ function getDistanceAttackBonus(flank: [FlankRow], currentRow: number, fightSize
     }
   }
   return bonus;
+}
+
+export function getMoral(
+  currentUnits1: number,
+  currentUnits2: number,
+  squadNumber1: number,
+  squadNumber2: number,
+  morality1: number,
+  morality2: number,
+) {
+  const moral1 = currentUnits1 <= (squadNumber1 * (100 - morality1)) / 100;
+  const moral2 = currentUnits2 <= (squadNumber2 * (100 - morality2)) / 100;
+  return { moral1, moral2 };
 }
 
 export function fight(

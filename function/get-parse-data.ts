@@ -1,10 +1,7 @@
-import { UnitData } from "../public/database/units-data";
+import { UnitData } from '../public/database/units-data';
 
-export function getParseData(data: UnitData
-) {
-
+export function getParseData(data: UnitData) {
   // console.log(data);
-
 
   let newData = {};
 
@@ -15,7 +12,7 @@ export function getParseData(data: UnitData
       for (let squad in data[player][flank]) {
         let squadInfo = data[player][flank][squad];
 
-        const squadNumber = squadInfo.unitNumber;
+        const squadNumber = Number(squadInfo.unitNumber);
         const squadHero = JSON.parse(data[player][flank].hero);
         const squadUnit = squadInfo.unitData && JSON.parse(squadInfo.unitData);
 

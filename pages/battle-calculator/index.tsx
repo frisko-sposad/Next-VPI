@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import PlayerArmy from '../../components/player-army';
+import Logs from '../../components/logs';
 import { battle, ParseData } from '../../function/battle';
 import { getParseData } from '../../function/get-parse-data';
 import { UnitData } from '../../public/database/units-data';
 
 const App = () => {
   const [unitsData, setUnitsData] = useState({} as ParseData);
-
+  const [logData, setLogData] = useState({});
   const methods = useForm();
   const {
     register,
@@ -21,7 +22,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    Object.keys(unitsData).length !== 0 && battle(unitsData);
+    Object.keys(unitsData).length !== 0 && battle(unitsData, setLogData);
   }, [unitsData]);
 
   return (
@@ -41,6 +42,7 @@ const App = () => {
         </form>
       </FormProvider>
       {/* {Object.keys(unitsData).length !== 0 && <Report data={unitsData} />} */}
+      {Object.keys(logData).length !== 0 && <Logs logData={logData} />}
     </>
   );
 };

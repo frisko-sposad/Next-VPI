@@ -39,10 +39,8 @@ export interface ParseData {
   player2: Flank;
 }
 
-export function battle(unitData: ParseData): void {
-  const lossData = [];
-  const liveUnits1 = [];
-  const liveUnits2 = [];
+export function battle(unitData: ParseData, setLogData): void {
+  const logData = [];
   const roundNumber = 10;
   const flankRows = {
     rightFlank1: 0,
@@ -76,8 +74,7 @@ export function battle(unitData: ParseData): void {
         currentUnitsCenter1,
         currentUnitsCenter2,
       );
-
-      lossData.push({
+      logData.push({
         round,
         name1: squadUnit1.name,
         name2: squadUnit2.name,
@@ -88,6 +85,7 @@ export function battle(unitData: ParseData): void {
         alive1: (currentUnitsCenter1 ? currentUnitsCenter1 : squadUnit1.squadNumber) - lossesPlayer1,
         alive2: (currentUnitsCenter2 ? currentUnitsCenter2 : squadUnit2.squadNumber) - lossesPlayer2,
       });
+
       currentUnitsCenter1 = aliveUnits1;
       currentUnitsCenter2 = aliveUnits2;
 
@@ -99,13 +97,6 @@ export function battle(unitData: ParseData): void {
         center1[flankRows.centerFlank1].squadUnit.morality,
         center2[flankRows.centerFlank2].squadUnit.morality,
       );
-      // console.log(moral1, moral2);
-      // const moral1 =
-      //   currentUnitsCenter1 <=
-      //   (squadUnit1.squadNumber * (100 - center1[flankRows.centerFlank1].squadUnit.morality)) / 100;
-      // const moral2 =
-      //   currentUnitsCenter2 <=
-      //   (squadUnit2.squadNumber * (100 - center2[flankRows.centerFlank1].squadUnit.morality)) / 100;
 
       // Проверка морали, если не проходит то берём следующий ряд, если проходит то подставляем выживших юнитов
       if (moral1) {
@@ -123,5 +114,6 @@ export function battle(unitData: ParseData): void {
       }
     }
   }
-  console.log(lossData);
+  console.log(logData);
+  setLogData(logData);
 }

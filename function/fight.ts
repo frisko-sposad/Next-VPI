@@ -26,8 +26,8 @@ function getAttackBonus(unit1: squadUnit, unit2: squadUnit, hero1: Hero, hero2: 
 
 function getFightSize(unit1: squadUnit, unit2: squadUnit): number {
   let fightSize = 0;
-  unit1.squadNumber <= 0 && console.log('Units p1 not found', unit1.squadNumber);
-  unit2.squadNumber <= 0 && console.log('Units p2 not found', unit2.squadNumber);
+  // unit1.squadNumber <= 0 && console.log('Units p1 not found', unit1.squadNumber);
+  // unit2.squadNumber <= 0 && console.log('Units p2 not found', unit2.squadNumber);
 
   if (unit1.squadNumber * unit1.size <= unit2.squadNumber * unit2.size) {
     fightSize = unit1.squadNumber * unit1.size;
@@ -52,7 +52,6 @@ function getLosses(
     Math.floor((((attack2 * fightSize) / unit1.size + distanceAttackBonus2) / unit1.health) * 100) / 100;
   const lossesPlayer2 =
     Math.floor((((attack1 * fightSize) / unit1.size + distanceAttackBonus1) / unit2.health) * 100) / 100;
-  console.log({ lossesPlayer1, lossesPlayer2 });
 
   return { lossesPlayer1, lossesPlayer2 };
 }

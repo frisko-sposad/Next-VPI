@@ -7,7 +7,7 @@ function Logs({ logData }) {
   const logs = logData?.map((round, index) => {
     return (
       <div key={`${round.round}-${index}`}>
-        <span className="pr-2">{round.round}</span>
+        <span className="px-2">{round.round}</span>
         <span className="pr-2">{round.name1}</span>
         <span className="pr-2">{round.number1}</span>
         <span className="pr-2"> x </span>

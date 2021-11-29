@@ -79,6 +79,22 @@ function getDistanceAttackBonus(flank: [FlankRow], currentRow: number, fightSize
   return bonus;
 }
 
+export function getSuperior(
+  squadUnit1: squadUnit,
+  squadUnit2: squadUnit,
+  currentUnitsCenter1: number | undefined,
+  currentUnitsCenter2: number | undefined,
+) {
+  const number1 = currentUnitsCenter1 ? currentUnitsCenter1 : squadUnit1.squadNumber;
+  const number2 = currentUnitsCenter2 ? currentUnitsCenter2 : squadUnit2.squadNumber;
+  console.log(number1, number2);
+
+  const superior1 = number1 * squadUnit1.morality <= (number2 * squadUnit1.morality) / 10;
+  const superior2 = number2 * squadUnit2.morality <= (number1 * squadUnit2.morality) / 10;
+
+  return { superior1, superior2 };
+}
+
 export function getMoral(
   currentUnits1: number,
   currentUnits2: number,

@@ -1,16 +1,16 @@
-import { UnitData } from '../public/database/units-data';
+import { Flank, ParseData } from './battle';
 
-export function getParseData(data: UnitData) {
-  // console.log(data);
+export function getParseData(data: ParseData) {
+  const newData = {};
 
-  let newData = {};
+  for (const player in data) {
+    const newDataFlank = {};
 
-  for (let player in data) {
-    let newDataFlank = {};
-    for (let flank in data[player]) {
-      let newDataSquad = [];
-      for (let squad in data[player][flank]) {
-        let squadInfo = data[player][flank][squad];
+    for (const flank in data[player]) {
+      const newDataSquad = [];
+
+      for (const squad in data[player][flank]) {
+        const squadInfo = data[player][flank][squad];
 
         const squadNumber = Number(squadInfo.unitNumber);
         const squadHero = JSON.parse(data[player][flank].hero);

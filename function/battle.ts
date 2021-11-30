@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+import { LogData } from '../components/logs';
 import { Hero } from '../public/database/heroes-data';
 import { squadUnitOld, Weapon } from '../public/database/units-data';
 import { fight, getMoral, getSuperior } from './fight';
@@ -39,7 +41,7 @@ export interface ParseData {
   player2: Flank;
 }
 
-export function battle(unitData: ParseData, setLogData): void {
+export function battle(unitData: ParseData, setLogData: Dispatch<SetStateAction<LogData>>): void {
   const logData = [];
   const roundNumber = 20;
   const flankRows = {

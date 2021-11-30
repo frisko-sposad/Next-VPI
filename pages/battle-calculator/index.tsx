@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { LogData, Logs } from '../../components/logs';
 import PlayerArmy from '../../components/player-army';
-import Logs from '../../components/logs';
+
 import { battle, ParseData } from '../../function/battle';
 import { getParseData } from '../../function/get-parse-data';
 import { UnitData } from '../../public/database/units-data';
 
 const App = () => {
   const [unitsData, setUnitsData] = useState({} as ParseData);
-  const [logData, setLogData] = useState({});
+  const [logData, setLogData] = useState({} as LogData);
   const methods = useForm();
   const {
     register,
@@ -17,7 +18,7 @@ const App = () => {
     formState: { errors },
   } = methods;
 
-  const onSubmit = (data: UnitData[]) => {
+  const onSubmit = (data: ParseData) => {
     setUnitsData(getParseData(data));
   };
 

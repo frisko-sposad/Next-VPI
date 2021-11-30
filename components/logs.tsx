@@ -1,7 +1,21 @@
 import React from 'react';
 import { memo } from 'react';
 
-function Logs({ logData }) {
+export interface LogData {
+  logData: {
+    alive1: number;
+    alive2: number;
+    losses1: number;
+    losses2: number;
+    name1: string;
+    name2: string;
+    number1: number;
+    number2: number;
+    round: number;
+  }[];
+}
+
+export function Logs({ logData }: LogData): JSX.Element {
   console.log(logData);
 
   const logs = logData?.map((round, index) => {

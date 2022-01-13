@@ -1,8 +1,7 @@
-import { Dispatch, SetStateAction } from 'react';
-import { LogData } from '../components/logs';
+import { LogData, LogsData } from '../components/logs';
 import { Hero } from '../public/database/heroes-data';
 import { squadUnitOld, Weapon } from '../public/database/units-data';
-import { fight, getMoral, getSuperior } from './fight';
+import { getResultRoundFight } from './fight';
 
 export interface squadUnit extends squadUnitOld {
   id: number;
@@ -27,11 +26,12 @@ export interface squadUnit extends squadUnitOld {
 export interface FlankRow {
   squadUnit: squadUnit;
   squadHero: Hero;
+  squadFlank: string;
 }
 
 export interface Flank {
   center: [FlankRow];
-  defence: [FlankRow];
+  defense: [FlankRow];
   left: [FlankRow];
   right: [FlankRow];
 }
@@ -41,8 +41,8 @@ export interface ParseData {
   player2: Flank;
 }
 
-export function battle(unitData: ParseData, setLogData: Dispatch<SetStateAction<LogData>>): void {
-  const logData = [];
+export function battle(unitData: ParseData): LogData[] {
+  const logsData = [] as unknown as LogsData;
   const roundNumber = 20;
   const flankRows = {
     rightFlank1: 0,
@@ -51,86 +51,108 @@ export function battle(unitData: ParseData, setLogData: Dispatch<SetStateAction<
     leftFlank2: 0,
     centerFlank1: 0,
     centerFlank2: 0,
-    defenceFlank1: 0,
-    defenceFlank2: 0,
+    defenseFlank1: 0,
+    defenseFlank2: 0,
+  };
+
+  const placeBattle = {
+    center: true,
+    right: true,
+    left: true,
+    defense1: false,
+    defense2: false,
   };
 
   const {
-    player1: { center: center1, right: right1, left: left1, defence: defence1 },
-    player2: { center: center2, right: right2, left: left2, defence: defence2 },
+    player1: { center: center1, right: right1, left: left1, defense: defense1 },
+    player2: { center: center2, right: right2, left: left2, defense: defense2 },
   } = unitData;
 
   let currentUnitsCenter1;
   let currentUnitsCenter2;
+  let currentUnitsDefense1;
 
   for (let round = 1; round <= roundNumber; round++) {
-    if (flankRows.centerFlank1 < 5 && flankRows.centerFlank2 < 5) {
-      const squadUnit1 = center1[flankRows.centerFlank1].squadUnit;
-      const squadUnit2 = center2[flankRows.centerFlank2].squadUnit;
+    if (flankRows.centerFlank1 < 5 && flankRows.centerFlank2 < 5 && placeBattle.center) {
+      const result = getResultRoundFight(
+        center1,
+        center2,
+        flankRows.centerFlank1,
+        flankRows.centerFlank2,
+        currentUnitsCenter1,
+        currentUnitsCenter2,
+      );
+      // console.log(round, flankRows.centerFlank2, result.flankRow2, currentUnitsCenter2, result.alive2);
 
-      let { superior1, superior2 } = getSuperior(squadUnit1, squadUnit2, currentUnitsCenter1, currentUnitsCenter2);
-      console.log({ superior1, superior2 });
+      flankRows.centerFlank1 === result.flankRow1
+        ? (currentUnitsCenter1 = result.alive1)
+        : (currentUnitsCenter1 = undefined);
+      flankRows.centerFlank2 === result.flankRow2 && result.flankRow2 !== 5
+        ? (currentUnitsCenter2 = result.alive2)
+        : (currentUnitsCenter2 = undefined);
 
-      if (superior1 || superior2) {
-        superior1 && flankRows.centerFlank1++;
-        superior2 && flankRows.centerFlank2++;
-        superior1 = false;
-        superior2 = false;
-        console.log({ superior1, superior2 }, flankRows.centerFlank1, flankRows.centerFlank2);
-      } else {
-        const { aliveUnits1, aliveUnits2, lossesPlayer1, lossesPlayer2 } = fight(
-          center1,
-          center2,
-          flankRows.centerFlank1,
-          flankRows.centerFlank2,
-          currentUnitsCenter1,
-          currentUnitsCenter2,
-        );
-        logData.push({
-          round,
-          name1: squadUnit1.name,
-          name2: squadUnit2.name,
-          number1: currentUnitsCenter1 ? currentUnitsCenter1 : squadUnit1.squadNumber,
-          number2: currentUnitsCenter2 ? currentUnitsCenter2 : squadUnit2.squadNumber,
-          losses1: lossesPlayer1,
-          losses2: lossesPlayer2,
-          alive1:
-            Math.floor(((currentUnitsCenter1 ? currentUnitsCenter1 : squadUnit1.squadNumber) - lossesPlayer1) * 100) /
-            100,
-          alive2:
-            Math.floor(((currentUnitsCenter2 ? currentUnitsCenter2 : squadUnit2.squadNumber) - lossesPlayer2) * 100) /
-            100,
-        });
-
-        currentUnitsCenter1 = aliveUnits1;
-        currentUnitsCenter2 = aliveUnits2;
-
-        const { moral1, moral2 } = getMoral(
-          currentUnitsCenter1,
-          currentUnitsCenter2,
-          squadUnit1.squadNumber,
-          squadUnit2.squadNumber,
-          center1[flankRows.centerFlank1].squadUnit.morality,
-          center2[flankRows.centerFlank2].squadUnit.morality,
-        );
-
-        // Проверка морали, если не проходит то берём следующий ряд, если проходит то подставляем выживших юнитов
-        if (moral1) {
-          flankRows.centerFlank1++;
-          currentUnitsCenter1 = undefined;
-        } else {
-          currentUnitsCenter1 = aliveUnits1;
-        }
-
-        if (moral2) {
-          flankRows.centerFlank2++;
-          currentUnitsCenter2 = undefined;
-        } else {
-          currentUnitsCenter2 = aliveUnits2;
-        }
+      if (result.flankRow1 == 5) {
+        console.log('Победа по центру у игрка 2');
+        currentUnitsCenter2 = result.alive2;
       }
+      if (result.flankRow2 == 5) {
+        console.log('Победа по центру у игрка 1');
+        currentUnitsCenter1 = result.alive1;
+      }
+
+      // console.log(round, flankRows.centerFlank2, result.flankRow2, currentUnitsCenter2, result.alive2);
+
+      flankRows.centerFlank1 = result.flankRow1;
+      flankRows.centerFlank2 = result.flankRow2;
+
+      logsData.push({
+        round,
+        // расчёт ряда, чтоб не превышал 5
+        row1: flankRows.centerFlank1 < 5 ? flankRows.centerFlank1 : 4,
+        row2: flankRows.centerFlank2 < 5 ? flankRows.centerFlank2 : 4,
+        ...result,
+      });
+    } else {
+      // flankRows.centerFlank1 === 5 && console.log('Победа по центру у игрка 2');
+      // flankRows.centerFlank2 === 5 && console.log('Победа по центру у игрка 1');
+      placeBattle.center = false;
+      placeBattle.defense1 = true;
+    }
+
+    // --------------Тыл игрока 1-------------
+    if (flankRows.defenseFlank1 < 5 && flankRows.centerFlank2 < 5 && placeBattle.defense1) {
+      const result = getResultRoundFight(
+        defense1,
+        center2,
+        flankRows.defenseFlank1,
+        flankRows.centerFlank2,
+        currentUnitsDefense1,
+        currentUnitsCenter2,
+      );
+      // console.log(result.status);
+      // console.log(round, flankRows.centerFlank1, result.flankRow1, currentUnitsCenter2);
+      flankRows.defenseFlank1 === result.flankRow1
+        ? (currentUnitsDefense1 = result.alive1)
+        : (currentUnitsDefense1 = undefined);
+      flankRows.centerFlank2 === result.flankRow2
+        ? (currentUnitsCenter2 = result.alive2)
+        : (currentUnitsCenter2 = undefined);
+      // console.log(round, flankRows.centerFlank1, result.flankRow1, currentUnitsCenter2);
+      flankRows.defenseFlank1 = result.flankRow1;
+      flankRows.centerFlank2 = result.flankRow2;
+
+      logsData.push({
+        round,
+        ...result,
+      });
+    } else {
+      // flankRows.defenseFlank1 === 5 && console.log('Победа по центру у игрка 2');
+      // flankRows.centerFlank2 === 5 && console.log('Победа по центру у игрка 1');
+      placeBattle.defense1 = false;
     }
   }
-  console.log(logData);
-  setLogData(logData);
+  // console.log(logsData);
+
+  return logsData;
+  // setLogData(logsData);
 }

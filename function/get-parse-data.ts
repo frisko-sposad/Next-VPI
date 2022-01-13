@@ -1,13 +1,15 @@
-import { Flank, ParseData } from './battle';
+import { ParseData } from './battle';
 
 export function getParseData(data: ParseData) {
   const newData = {};
+  console.log(data);
 
   for (const player in data) {
     const newDataFlank = {};
 
     for (const flank in data[player]) {
       const newDataSquad = [];
+      const squadFlank = flank;
 
       for (const squad in data[player][flank]) {
         const squadInfo = data[player][flank][squad];
@@ -21,7 +23,7 @@ export function getParseData(data: ParseData) {
         }
 
         if (squad !== 'hero') {
-          newDataSquad.push({ squadUnit, squadHero });
+          newDataSquad.push({ squadUnit, squadHero, squadFlank });
         }
       }
 
@@ -29,7 +31,8 @@ export function getParseData(data: ParseData) {
     }
     newData[`${player}`] = newDataFlank;
   }
-  // console.log(newData);
+
+  console.log(newData);
 
   return newData;
 }

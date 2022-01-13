@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { LogData, Logs } from '../../components/logs';
+import { Logs, LogData } from '../../components/logs';
 import PlayerArmy from '../../components/player-army';
 
 import { battle, ParseData } from '../../function/battle';
 import { getParseData } from '../../function/get-parse-data';
-import { UnitData } from '../../public/database/units-data';
 
 const App = () => {
-  const [unitsData, setUnitsData] = useState({} as ParseData);
-  const [logData, setLogData] = useState({} as LogData);
+  const [unitsData, setUnitsData] = useState({} as unknown as ParseData);
+  const [logsData, setLogData] = useState([] as unknown as LogData[]);
   const methods = useForm();
   const {
-    register,
+    // register,
     handleSubmit,
-    watch,
-    formState: { errors },
+    // watch,
+    // formState: { errors },
   } = methods;
 
   const onSubmit = (data: ParseData) => {
@@ -23,7 +22,9 @@ const App = () => {
   };
 
   useEffect(() => {
-    Object.keys(unitsData).length !== 0 && battle(unitsData, setLogData);
+    if (Object.keys(unitsData).length !== 0) {
+      setLogData(battle(unitsData));
+    }
   }, [unitsData]);
 
   return (
@@ -43,7 +44,7 @@ const App = () => {
         </form>
       </FormProvider>
       {/* {Object.keys(unitsData).length !== 0 && <Report data={unitsData} />} */}
-      {Object.keys(logData).length !== 0 && <Logs logData={logData} />}
+      {Object.keys(logsData).length !== 0 && <Logs logsData={logsData} />}
     </>
   );
 };

@@ -34,7 +34,7 @@ function getFightSize(number1: number, number2: number, squad1: squadUnit, squad
   } else {
     fightSize = number2 * squad2.size;
   }
-  console.log(fightSize);
+  // console.log(fightSize);
 
   return fightSize;
 }
@@ -149,6 +149,8 @@ export function getResultRoundFight(
   const squadUnit2 = flank2[flankRow2].squadUnit;
   const flankName1 = flank1[flankRow1].squadFlank;
   const flankName2 = flank2[flankRow2].squadFlank;
+
+  console.log({ currentUnits1, currentUnits2, number1: squadUnit1.squadNumber, number2: squadUnit2.squadNumber });
 
   const squadNumber1 = currentUnits1 ? currentUnits1 : squadUnit1.squadNumber;
   const squadNumber2 = currentUnits2 ? currentUnits2 : squadUnit2.squadNumber;

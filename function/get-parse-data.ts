@@ -2,7 +2,7 @@ import { ParseData } from './battle';
 
 export function getParseData(data: ParseData) {
   const newData = {};
-  console.log(data);
+  // console.log(data);
 
   for (const player in data) {
     const newDataFlank = {};
@@ -32,7 +32,7 @@ export function getParseData(data: ParseData) {
     newData[`${player}`] = newDataFlank;
   }
 
-  console.log(newData);
+  // console.log(newData);
 
   return newData;
 }

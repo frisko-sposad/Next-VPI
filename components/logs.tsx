@@ -20,12 +20,14 @@ export interface LogData {
   row2: number;
 }
 
-export interface LogsData {
-  [x: string]: any;
-  logsData: LogData[];
-}
+// export interface LogsData {
+//   [x: string]: any;
+//   Data: LogData[];
+// }
 
-export function Logs({ logsData }: LogsData): JSX.Element {
+type Data = Record<string, LogData[]>;
+
+export function Logs({ logsData }: Data): JSX.Element {
   // console.log(logsData);
 
   const logs = logsData?.map((round: LogData, index: number) => {

@@ -1,30 +1,10 @@
 import { ParseData } from './battle';
 
-interface RawData {
-  player1: RawFlank;
-  player2: RawFlank;
-}
+type RawFlankRow = Record<string, string>;
+type RawFlank = Record<string, RawFlankRow>;
+type RawData = Record<string, RawFlank>;
 
-interface RawFlank {
-  center: RawFlankRow;
-  defense: RawFlankRow;
-  left: RawFlankRow;
-  right: RawFlankRow;
-}
-
-interface RawFlankRow {
-  unitData: string;
-  unitNumber: string;
-}
-
-enum FlankName {
-  center,
-  defense,
-  left,
-  right,
-}
-
-export function getParseData(data: Record<string, RawFlank>) {
+export function getParseData(data: Record<string, RawData>) {
   const newData = {} as ParseData;
 
   for (const player in data) {
@@ -44,7 +24,7 @@ export function getParseData(data: Record<string, RawFlank>) {
 
         if (squadUnit) {
           squadUnit['squadNumber'] = squadNumber;
-          squadUnit['squadAlive'] = 0;
+          squadUnit['squadAlive'] = squadNumber;
           squadUnit['squadLosses'] = 0;
         }
 

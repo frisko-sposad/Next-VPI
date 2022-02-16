@@ -1,4 +1,3 @@
-import loadConfig from 'next/dist/next-server/server/config';
 import { Hero } from '../public/database/heroes-data';
 import { Weapon } from '../public/database/units-data';
 import { FlankRow, squadUnit } from './battle';
@@ -81,26 +80,6 @@ function getDistanceAttackBonus(flank: [FlankRow], currentRow: number, fightSize
   return bonus;
 }
 
-export function getSuperior(squadUnit1: squadUnit, squadUnit2: squadUnit, number1: number, number2: number) {
-  const superior1 = number1 * squadUnit1.morality <= (number2 * squadUnit1.morality) / 10;
-  const superior2 = number2 * squadUnit2.morality <= (number1 * squadUnit2.morality) / 10;
-
-  return { superior1, superior2 };
-}
-
-export function getMoral(
-  currentUnits1: number,
-  currentUnits2: number,
-  squadNumber1: number,
-  squadNumber2: number,
-  morality1: number,
-  morality2: number,
-) {
-  const moral1 = currentUnits1 <= (squadNumber1 * (100 - morality1)) / 100;
-  const moral2 = currentUnits2 <= (squadNumber2 * (100 - morality2)) / 100;
-  return { moral1, moral2 };
-}
-
 export function fight(
   flank1: [FlankRow],
   flank2: [FlankRow],
@@ -137,104 +116,137 @@ export function fight(
   return { alive1, alive2, lossesPlayer1, lossesPlayer2 };
 }
 
+let status = 'То что не должно выводиться';
+
+function getIsFight(
+  number1: number,
+  number2: number,
+  row1: number,
+  row2: number,
+  morality1: number,
+  morality2: number,
+  name1: string,
+  name2: string,
+  alive1: number,
+  alive2: number,
+) {
+  status = 'Идёт бой';
+  let isFight = true;
+  if (number1 === 0 || number2 === 0) {
+    isFight = false;
+    if (number1 === 0) {
+      status = 'войск игрока 1 не обнаружено';
+      row1++;
+    }
+    if (number2 === 0) {
+      status = 'войск игрока 2 не обнаружено';
+      row2++;
+    }
+    if (number1 === 0 && number2 === 0) {
+      status = 'войск не обнаружено';
+      row1++;
+      row2++;
+    }
+  } else {
+    const superior1 = alive1 * morality1 <= (number2 * morality1) / 10;
+    const superior2 = alive2 * morality2 <= (number1 * morality2) / 10;
+
+    if (superior1 || superior2) {
+      isFight = false;
+      if (superior1) {
+        status = 'Численный перевес у Ирока 2';
+        row1++;
+      }
+      if (superior2) {
+        status = 'Численный перевес у Ирока 1';
+        row2++;
+      }
+    } else {
+      const moral1 = alive1 <= (number1 * (100 - morality1)) / 100;
+      const moral2 = alive2 <= (number2 * (100 - morality2)) / 100;
+
+      if (moral1 && !moral2) {
+        status = `${name1} игрока 1 отступают`;
+        row1++;
+        isFight = false;
+      }
+      if (moral2 && !moral1) {
+        status = `${name2} игрока 2 отступают`;
+        row2++;
+        isFight = false;
+      }
+
+      if (moral1 && moral2) {
+        status = `Оба отряда отступают`;
+        row1++;
+        row2++;
+        isFight = false;
+      }
+    }
+  }
+
+  if (row1 == 5) {
+    status = 'Победа на фланге у игрока 2';
+  }
+  if (row2 == 5) {
+    status = 'Победа на фланге у игрока 1';
+  }
+  // console.log({ row1, row2 });
+
+  return { row1, row2, isFight };
+}
+
 export function getResultRoundFight(
   flank1: [FlankRow],
   flank2: [FlankRow],
   flankRow1: number,
   flankRow2: number,
-  currentUnits1: number | undefined,
-  currentUnits2: number | undefined,
   flankName1: string,
   flankName2: string,
 ) {
-  let status = 'Идёт бой';
   const squadUnit1 = flank1[flankRow1].squadUnit;
   const squadUnit2 = flank2[flankRow2].squadUnit;
 
-  const squadNumber1 = currentUnits1 ? currentUnits1 : squadUnit1.squadNumber;
-  const squadNumber2 = currentUnits2 ? currentUnits2 : squadUnit2.squadNumber;
+  const { row1, row2, isFight } = getIsFight(
+    squadUnit1.squadNumber,
+    squadUnit2.squadNumber,
+    flankRow1,
+    flankRow2,
+    squadUnit1.morality,
+    squadUnit2.morality,
+    squadUnit1.name,
+    squadUnit2.name,
+    squadUnit1.squadAlive,
+    squadUnit2.squadAlive,
+  );
 
-  if (squadNumber1 === 0 || squadNumber2 === 0) {
-    if (squadNumber1 === 0) {
-      status = 'войск игрока 1 не обнаружено';
-      flankRow1++;
-    }
-    if (squadNumber2 === 0) {
-      status = 'войск игрока 2 не обнаружено';
-      flankRow2++;
-    }
-    if (squadNumber1 === 0 && squadNumber2 === 0) {
-      status = 'войск не обнаружено';
-      flankRow1++;
-      flankRow2++;
-    }
+  if (!isFight) {
     return {
       name1: squadUnit1.name,
       name2: squadUnit2.name,
-      number1: squadNumber1,
-      number2: squadNumber2,
       losses1: 0,
       losses2: 0,
-      alive1: 0,
-      alive2: 0,
-      flankRow1,
-      flankRow2,
+      alive1: squadUnit1.squadAlive,
+      alive2: squadUnit2.squadAlive,
+      flankRow1: row1,
+      flankRow2: row2,
       flankName1,
       flankName2,
       status,
     };
   } else {
-    let { superior1, superior2 } = getSuperior(squadUnit1, squadUnit2, squadNumber1, squadNumber2);
-    if (superior1 || superior2) {
-      if (superior1) {
-        flankRow1++;
-        superior1 = false;
-        status = 'Численный перевес у Ирока 2';
-      }
-      if (superior2) {
-        flankRow2++;
-        superior2 = false;
-        status = 'Численный перевес у Ирока 1';
-      }
-    }
     const { alive1, alive2, lossesPlayer1, lossesPlayer2 } = fight(
       flank1,
       flank2,
       flankRow1,
       flankRow2,
-      squadNumber1,
-      squadNumber2,
+      squadUnit1.squadAlive,
+      squadUnit2.squadAlive,
     );
-
-    const { moral1, moral2 } = getMoral(
-      squadNumber1,
-      squadNumber2,
-      squadUnit1.squadNumber,
-      squadUnit2.squadNumber,
-      flank1[flankRow1].squadUnit.morality,
-      flank2[flankRow2].squadUnit.morality,
-    );
-
-    if (moral1 && !moral2) {
-      status = `${alive1} ${squadUnit1.name} игрока 1 отступают`;
-      flankRow1++;
-    }
-    if (moral2 && !moral1) {
-      status = `${alive2} ${squadUnit2.name} игрока 2 отступают`;
-      flankRow2++;
-    }
-
-    if (moral1 && moral2) {
-      status = `Оба отряда отступают`;
-      flankRow1++;
-      flankRow2++;
-    }
 
     return {
       name1: squadUnit1.name,
       name2: squadUnit2.name,
-      number1: squadNumber1,
-      number2: squadNumber2,
       losses1: lossesPlayer1,
       losses2: lossesPlayer2,
       alive1,
@@ -246,36 +258,4 @@ export function getResultRoundFight(
       status,
     };
   }
-
-  // if (superior1 || superior2) {
-  //   if (superior1) {
-  //     flankRow1++;
-  //     superior1 = false;
-  //     status = 'Численный перевес у Ирока 2';
-  //   }
-  //   if (superior2) {
-  //     flankRow2++;
-  //     superior2 = false;
-  //     status = 'Численный перевес у Ирока 1';
-  //   }
-
-  //   const alive1 = squadNumber1;
-  //   const alive2 = squadNumber2;
-
-  //   return {
-  //     name1: squadUnit1.name,
-  //     name2: squadUnit2.name,
-  //     number1: squadNumber1,
-  //     number2: squadNumber2,
-  //     alive1,
-  //     alive2,
-  //     flankRow1,
-  //     flankRow2,
-  //     flankName1,
-  //     flankName2,
-  //     status,
-  //   };
-  // } else {
-
-  // Проверка морали, если не проходит то берём следующий ряд, если проходит то подставляем выживших юнитов
 }

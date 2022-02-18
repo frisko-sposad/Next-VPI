@@ -16,6 +16,8 @@ export interface LogData {
   status: string;
   row1: number;
   row2: number;
+  number1: number;
+  number2: number;
 }
 
 // export interface LogsData {
@@ -38,10 +40,10 @@ export function Logs({ logsData }: Data): JSX.Element {
         <span className="pr-2">{round.flankName2}</span>
         <span className="pr-10">ряд{round.row2 + 1}</span>
         <span className="pr-2">{round.name1}</span>
-        <span className="pr-2">{round.alive1}</span>
+        <span className="pr-2">{round.number1}</span>
         <span className="pr-2"> x </span>
         <span className="pr-2">{round.name2}</span>
-        <span className="pr-10">{round.alive2}</span>
+        <span className="pr-10">{round.number2}</span>
         <span className="pr-2">Потери:</span>
         <span className="pr-2">{round.losses1 ? round.losses1 : 0}</span>
         <span className="pr-2"> x </span>

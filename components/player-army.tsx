@@ -7,7 +7,7 @@ interface PlayerArmy {
 
 const flank = {
   right: ['Правый фланг', 'right'],
-  defence: ['Тыл', 'defense'],
+  defence: ['Тыл', 'defence'],
   center: ['Центр', 'center'],
   left: ['Левый Фланг', 'left'],
 };

@@ -8,7 +8,7 @@
 //       <Player flank={player1.right} name="Player1-right" />
 //       <Player flank={player1.left} name="Player1-left" />
 //       <Player flank={player1.center} name="Player1-center" />
-//       <Player flank={player1.defense} name="Player1-defense" />
+//       <Player flank={player1.defence} name="Player1-defence" />
 //     </>
 //   );
 // }

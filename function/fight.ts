@@ -129,6 +129,8 @@ function getIsFight(
   name2: string,
   alive1: number,
   alive2: number,
+  flankName1: string,
+  flankName2: string,
 ) {
   status = 'Идёт бой';
   let isFight = true;
@@ -186,12 +188,17 @@ function getIsFight(
     }
   }
 
-  if (row1 == 5) {
-    status = 'Победа на фланге у игрока 2';
+  if (row1 == 5 && row2 == 5) {
+    status = `Ничья на ${flankName1}-${flankName2}`;
+  } else {
+    if (row1 == 5 && isFight) {
+      status = `Победа на ${flankName1} у игрока 2`;
+    }
+    if (row2 == 5 && isFight) {
+      status = `Победа на ${flankName2} у игрока 1`;
+    }
   }
-  if (row2 == 5) {
-    status = 'Победа на фланге у игрока 1';
-  }
+
   // console.log({ row1, row2 });
 
   return { row1, row2, isFight };
@@ -219,6 +226,8 @@ export function getResultRoundFight(
     squadUnit2.name,
     squadUnit1.squadAlive,
     squadUnit2.squadAlive,
+    flankName1,
+    flankName2,
   );
 
   if (!isFight) {

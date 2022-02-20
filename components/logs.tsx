@@ -49,15 +49,14 @@ export function Logs({ logsData }: Data): JSX.Element {
       number1,
       number2,
     } = round;
-    console.log(number1);
 
     return (
       <div key={`${roundNumber}-${index}`}>
         <span className="px-2">{roundNumber}</span>
-        <span className="pr-2">{flankName1}</span>
+        <span className="pr-2">{flankName1}1</span>
         <span className="pr-2">ряд{row1 + 1}</span>
         <span className="pr-2"> x </span>
-        <span className="pr-2">{flankName2}</span>
+        <span className="pr-2">{flankName2}2</span>
         <span className="pr-10">ряд{row2 + 1}</span>
         {number1 !== 0 && <span className="pr-2">{name1}</span>}
         {number1 ? <span className="pr-2">{number1}</span> : <span className="pr-2">Не задано</span>}

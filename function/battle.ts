@@ -31,7 +31,7 @@ export interface FlankRow {
   squadFlank: string;
 }
 
-export interface Flank {
+export interface FlankData {
   center: [FlankRow];
   defence: [FlankRow];
   left: [FlankRow];
@@ -39,10 +39,20 @@ export interface Flank {
 }
 
 export interface ParseData {
-  player1: Flank;
-  player2: Flank;
+  player1: FlankData;
+  player2: FlankData;
 }
-
+enum FightPlace {
+  front = 'front',
+  defence1 = 'defence1',
+  defence2 = 'defence2',
+}
+enum Flank {
+  center = 'center',
+  right = 'right',
+  left = 'left',
+  defence = 'defence',
+}
 export function battle(unitData: ParseData): { logsData: LogData[]; unitData: ParseData } {
   const logsData = [] as unknown as LogData[];
   const roundNumber = 20;
@@ -59,18 +69,6 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
     defence: 0,
   };
 
-  enum FightPlace {
-    front = 'front',
-    defence1 = 'defence1',
-    defence2 = 'defence2',
-  }
-  enum Flank {
-    center = 'center',
-    right = 'right',
-    left = 'left',
-    defence = 'defence',
-  }
-
   let rightFightPlase = FightPlace.front;
   let leftFightPlase = FightPlace.front;
   let centerFightPlase = FightPlace.front;
@@ -86,8 +84,8 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
     place1: Flank,
     place2: Flank,
   ) {
-    const flankName1 = `${flankData1[row1]?.squadFlank}1`;
-    const flankName2 = `${flankData2[row2]?.squadFlank}2`;
+    const flankName1 = `${flankData1[row1]?.squadFlank}`;
+    const flankName2 = `${flankData2[row2]?.squadFlank}`;
 
     if (row1 < 5 && row2 < 5) {
       const result = getResultRoundFight(flankData1, flankData2, row1, row2, flankName1, flankName2);

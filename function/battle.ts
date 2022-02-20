@@ -132,6 +132,9 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
   }
 
   for (let round = 1; round <= roundNumber; round++) {
+    console.log(flankRows1.center);
+
+    // center
     switch (centerFightPlase) {
       case FightPlace.front:
         {
@@ -181,43 +184,107 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
         }
         break;
     }
-    // switch (leftFightPlase) {
-    //   case FightPlace.front: {
-    //     const { flankRow1: leftFlank1, flankRow2: leftFlank2 } = flankFight(
-    //       player1.left,
-    //       player2.left,
-    //       flankRows1.left,
-    //       flankRows2.left,
-    //       round,
-    //       Flank.left,
-    //       Flank.left,
-    //     );
-    //     flankRows1.left = leftFlank1;
-    //     flankRows2.left = leftFlank2;
-    //   }
-    // }
 
-    // const { flankRow1: leftFlank1, flankRow2: leftFlank2 } = flankFight(
-    //   player1.left,
-    //   player2.left,
-    //   flankRows1.left,
-    //   flankRows2.left,
-    //   round,
-    //   placeBattle1.left,
-    //   placeBattle2.left,
-    // );
-    // flankRows1.left = leftFlank1;
-    // flankRows2.left = leftFlank2;
-
-    //   const { flankRow1: centerFlank1, flankRow2: centerFlank2 } = flankFight(
-    //     player1.center,
-    //     player2.center,
-    //     flankRows1.center,
-    //     flankRows2.center,
-    //     round,
-    //   );
-    //   flankRows1.center = centerFlank1;
-    //   flankRows2.center = centerFlank2;
+    // right
+    switch (rightFightPlase) {
+      case FightPlace.front:
+        {
+          const { flankRow1: rightFlank1, flankRow2: rightFlank2 } = flankFight(
+            player1.right,
+            player2.right,
+            flankRows1.right,
+            flankRows2.right,
+            round,
+            Flank.right,
+            Flank.right,
+          );
+          flankRows1.right = rightFlank1;
+          flankRows2.right = rightFlank2;
+          if (rightFlank1 === 5) rightFightPlase = FightPlace.defence1;
+          if (rightFlank2 === 5) rightFightPlase = FightPlace.defence2;
+        }
+        break;
+      case FightPlace.defence1:
+        {
+          const { flankRow1: defenceFlank1, flankRow2: rightFlank2 } = flankFight(
+            player1.defence,
+            player2.right,
+            flankRows1.defence,
+            flankRows2.right,
+            round,
+            Flank.defence,
+            Flank.right,
+          );
+          flankRows1.defence = defenceFlank1;
+          flankRows2.right = rightFlank2;
+        }
+        break;
+      case FightPlace.defence2:
+        {
+          const { flankRow1: rightFlank1, flankRow2: defenceFlank2 } = flankFight(
+            player1.right,
+            player2.defence,
+            flankRows1.right,
+            flankRows2.defence,
+            round,
+            Flank.right,
+            Flank.defence,
+          );
+          flankRows1.right = rightFlank1;
+          flankRows2.defence = defenceFlank2;
+        }
+        break;
+    }
+    // left
+    switch (leftFightPlase) {
+      case FightPlace.front:
+        {
+          const { flankRow1: leftFlank1, flankRow2: leftFlank2 } = flankFight(
+            player1.left,
+            player2.left,
+            flankRows1.left,
+            flankRows2.left,
+            round,
+            Flank.left,
+            Flank.left,
+          );
+          flankRows1.left = leftFlank1;
+          flankRows2.left = leftFlank2;
+          if (leftFlank1 === 5) leftFightPlase = FightPlace.defence1;
+          if (leftFlank2 === 5) leftFightPlase = FightPlace.defence2;
+        }
+        break;
+      case FightPlace.defence1:
+        {
+          const { flankRow1: defenceFlank1, flankRow2: leftFlank2 } = flankFight(
+            player1.defence,
+            player2.left,
+            flankRows1.defence,
+            flankRows2.left,
+            round,
+            Flank.defence,
+            Flank.left,
+          );
+          flankRows1.defence = defenceFlank1;
+          flankRows2.left = leftFlank2;
+        }
+        break;
+      case FightPlace.defence2:
+        {
+          const { flankRow1: leftFlank1, flankRow2: defenceFlank2 } = flankFight(
+            player1.left,
+            player2.defence,
+            flankRows1.left,
+            flankRows2.defence,
+            round,
+            Flank.left,
+            Flank.defence,
+          );
+          flankRows1.left = leftFlank1;
+          flankRows2.defence = defenceFlank2;
+        }
+        break;
+    }
   }
   console.log(unitData);
 

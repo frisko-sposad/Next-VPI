@@ -134,18 +134,19 @@ function getIsFight(
   let isFight = true;
   if (number1 === 0 || number2 === 0) {
     isFight = false;
-    if (number1 === 0) {
-      status = 'войск игрока 1 не обнаружено';
-      row1++;
-    }
-    if (number2 === 0) {
-      status = 'войск игрока 2 не обнаружено';
-      row2++;
-    }
     if (number1 === 0 && number2 === 0) {
       status = 'войск не обнаружено';
       row1++;
       row2++;
+    } else {
+      if (number1 === 0) {
+        status = 'войск игрока 1 не обнаружено';
+        row1++;
+      }
+      if (number2 === 0) {
+        status = 'войск игрока 2 не обнаружено';
+        row2++;
+      }
     }
   } else {
     const superior1 = alive1 * morality1 <= (number2 * morality1) / 10;

@@ -26,16 +26,36 @@ export interface squadUnitOld {
 export interface UnitData {
   name: string;
   subRows: squadUnitOld[];
-}[]
+}
+[];
 
 export const unitsData: UnitData[] = [
   {
-    name: "Конница",
+    name: 'Конница',
 
     subRows: [
+      // {
+      //   id: 0,
+      //   name: 'Не задано',
+      //   horse: true,
+      //   bow: false,
+      //   weapon: Weapon.sword,
+      //   attack: 0,
+      //   distanceAttack: 0,
+      //   health: 0,
+      //   morality: 0,
+      //   size: 3,
+      //   price: 1,
+      //   attackHorseman: 1,
+      //   attackSwordsman: 1,
+      //   attackSpearman: 1,
+      //   cavalryDefense: 1,
+      //   swordDefense: 1,
+      //   spearDefense: 1,
+      // },
       {
         id: 1,
-        name: "Тяж Конница",
+        name: 'Тяж Конница',
         horse: true,
         bow: false,
         weapon: Weapon.sword,
@@ -54,7 +74,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 2,
-        name: "Лёг Конница",
+        name: 'Лёг Конница',
         horse: true,
         bow: false,
         weapon: Weapon.sword,
@@ -73,7 +93,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 3,
-        name: "Конный Лучник",
+        name: 'Конный Лучник',
         horse: true,
         bow: true,
         weapon: Weapon.sword,
@@ -93,12 +113,12 @@ export const unitsData: UnitData[] = [
     ],
   },
   {
-    name: "Пехота",
+    name: 'Пехота',
 
     subRows: [
       {
         id: 4,
-        name: "Копейщик",
+        name: 'Копейщик',
         horse: false,
         bow: false,
         weapon: Weapon.spear,
@@ -117,7 +137,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 5,
-        name: "Мечник",
+        name: 'Мечник',
         horse: false,
         bow: false,
         weapon: Weapon.sword,
@@ -136,7 +156,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 6,
-        name: "Лучник",
+        name: 'Лучник',
         horse: false,
         bow: true,
         weapon: Weapon.sword,
@@ -155,7 +175,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 7,
-        name: "Одичалый",
+        name: 'Одичалый',
         horse: false,
         bow: false,
         weapon: Weapon.spear,
@@ -174,7 +194,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 8,
-        name: "Вольные Кланы",
+        name: 'Вольные Кланы',
         horse: false,
         bow: false,
         weapon: Weapon.sword,
@@ -193,7 +213,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 9,
-        name: "Ополченец",
+        name: 'Ополченец',
         horse: false,
         bow: false,
         weapon: Weapon.spear,
@@ -212,7 +232,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 10,
-        name: "Безупречный",
+        name: 'Безупречный',
         horse: false,
         bow: false,
         weapon: Weapon.spear,
@@ -231,7 +251,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 11,
-        name: "Спешенный рыцарь",
+        name: 'Спешенный рыцарь',
         horse: false,
         bow: false,
         weapon: Weapon.sword,
@@ -250,7 +270,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 12,
-        name: "Спешенный всадник",
+        name: 'Спешенный всадник',
         horse: false,
         bow: false,
         weapon: Weapon.sword,
@@ -269,7 +289,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 13,
-        name: "Моряк",
+        name: 'Моряк',
         horse: false,
         bow: false,
         weapon: Weapon.sword,
@@ -288,7 +308,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 14,
-        name: "Арбалетчик",
+        name: 'Арбалетчик',
         horse: false,
         bow: true,
         weapon: Weapon.sword,
@@ -308,12 +328,12 @@ export const unitsData: UnitData[] = [
     ],
   },
   {
-    name: "Флот",
+    name: 'Флот',
 
     subRows: [
       {
         id: 14,
-        name: "Пинас",
+        name: 'Пинас',
         horse: false,
         bow: false,
         weapon: Weapon.spear,
@@ -332,7 +352,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 15,
-        name: "Ладья",
+        name: 'Ладья',
         horse: false,
         bow: false,
         weapon: Weapon.spear,
@@ -351,7 +371,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 16,
-        name: "Драккар",
+        name: 'Драккар',
         horse: false,
         bow: false,
         weapon: Weapon.spear,
@@ -370,7 +390,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 17,
-        name: "Баркалон",
+        name: 'Баркалон',
         horse: false,
         bow: false,
         weapon: Weapon.spear,
@@ -389,7 +409,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 18,
-        name: "Галера",
+        name: 'Галера',
         horse: false,
         bow: false,
         weapon: Weapon.spear,
@@ -408,7 +428,7 @@ export const unitsData: UnitData[] = [
       },
       {
         id: 19,
-        name: "Галеон",
+        name: 'Галеон',
         horse: false,
         bow: false,
         weapon: Weapon.spear,

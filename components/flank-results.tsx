@@ -1,11 +1,14 @@
 import React from 'react';
 import { FlankRow } from '../function/battle';
-import { squads } from '../public/database/squads';
 
-const FlankResults = ({ flank }: { flank: [FlankRow] }) => {
+interface FlankResults {
+  flank: [FlankRow];
+}
+
+const FlankResults = ({ flank }: FlankResults) => {
   const flankResults = flank?.map((squad: FlankRow, index: number) => {
     if (squad.squadUnit.squadNumber === 0) {
-      return <div>&nbsp;</div>;
+      return <div className="flex justify-center px-2 text-gray-300">-</div>;
     } else {
       return (
         <div key={`${squad.squadUnit.id}-${index}`}>

@@ -31,29 +31,61 @@ export function Logs({ logsData }: Data): JSX.Element {
   // console.log(logsData);
 
   const logs = logsData?.map((round: LogData, index: number) => {
+    const {
+      round: roundNumber,
+      alive1,
+      alive2,
+      losses1,
+      losses2,
+      name1,
+      name2,
+      flankRow1,
+      flankRow2,
+      flankName1,
+      flankName2,
+      status,
+      row1,
+      row2,
+      number1,
+      number2,
+    } = round;
+    console.log(number1);
+
     return (
-      <div key={`${round.round}-${index}`}>
-        <span className="px-2">{round.round}</span>
-        <span className="pr-2">{round.flankName1}</span>
-        <span className="pr-2">ряд{round.row1 + 1}</span>
+      <div key={`${roundNumber}-${index}`}>
+        <span className="px-2">{roundNumber}</span>
+        <span className="pr-2">{flankName1}</span>
+        <span className="pr-2">ряд{row1 + 1}</span>
         <span className="pr-2"> x </span>
-        <span className="pr-2">{round.flankName2}</span>
-        <span className="pr-10">ряд{round.row2 + 1}</span>
-        <span className="pr-2">{round.name1}</span>
-        <span className="pr-2">{round.number1}</span>
+        <span className="pr-2">{flankName2}</span>
+        <span className="pr-10">ряд{row2 + 1}</span>
+        {number1 !== 0 && <span className="pr-2">{name1}</span>}
+        {number1 ? <span className="pr-2">{number1}</span> : <span className="pr-2">Не задано</span>}
         <span className="pr-2"> x </span>
-        <span className="pr-2">{round.name2}</span>
-        <span className="pr-10">{round.number2}</span>
-        <span className="pr-2">Потери:</span>
-        <span className="pr-2">{round.losses1 ? round.losses1 : 0}</span>
-        <span className="pr-2"> x </span>
-        <span className="pr-10">{round.losses2 ? round.losses2 : 0}</span>
-        <span className="pr-2">Выжившие:</span>
-        <span className="pr-2">{round.alive1 ? round.alive1 : 0}</span>
-        <span className="pr-2"> x </span>
-        <span className="pr-2">{round.alive2 ? round.alive2 : 0}</span>
+        {number2 !== 0 && <span className="pr-2">{name2}</span>}
+        {number2 ? <span className="pr-2">{number2}</span> : <span className="pr-2">Не задано</span>}
+
+        {number1 !== 0 && number2 !== 0 && (
+          <>
+            <span className="pr-2">Потери:</span>
+            <span className="pr-2">{losses1}</span>
+
+            <span className="pr-2"> x </span>
+            <span className="pr-2">{losses2}</span>
+          </>
+        )}
+        {number1 !== 0 && number2 !== 0 && (
+          <>
+            <span className="pr-2">Выжившие::</span>
+            <span className="pr-2">{alive1}</span>
+
+            <span className="pr-2"> x </span>
+            <span className="pr-2">{alive1}</span>
+          </>
+        )}
+
         <span className="pr-2 text-red-600">Статус:</span>
-        <span className="pr-2 ">{round.status}</span>
+        <span className="pr-2 ">{status}</span>
       </div>
     );
   });

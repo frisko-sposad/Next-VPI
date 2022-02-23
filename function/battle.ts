@@ -42,17 +42,21 @@ export interface ParseData {
   player1: FlankData;
   player2: FlankData;
 }
+
 enum FightPlace {
   front = 'front',
   defence1 = 'defence1',
   defence2 = 'defence2',
+  notSet = 'notSet',
 }
+
 enum Flank {
   center = 'center',
   right = 'right',
   left = 'left',
   defence = 'defence',
 }
+
 export function battle(unitData: ParseData): { logsData: LogData[]; unitData: ParseData } {
   const logsData = [] as unknown as LogData[];
   const roundNumber = 20;
@@ -130,8 +134,6 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
   }
 
   for (let round = 1; round <= roundNumber; round++) {
-    console.log(flankRows1.center);
-
     // center
     switch (centerFightPlase) {
       case FightPlace.front:
@@ -164,6 +166,11 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
           );
           flankRows1.defence = defenceFlank1;
           flankRows2.center = centerFlank2;
+          if (defenceFlank1 === 5) {
+            centerFightPlase = FightPlace.notSet;
+            rightFightPlase = FightPlace.notSet;
+            leftFightPlase = FightPlace.notSet;
+          }
         }
         break;
       case FightPlace.defence2:
@@ -179,6 +186,11 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
           );
           flankRows1.center = centerFlank1;
           flankRows2.defence = defenceFlank2;
+          if (defenceFlank2 === 5) {
+            centerFightPlase = FightPlace.notSet;
+            rightFightPlase = FightPlace.notSet;
+            leftFightPlase = FightPlace.notSet;
+          }
         }
         break;
     }
@@ -215,6 +227,11 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
           );
           flankRows1.defence = defenceFlank1;
           flankRows2.right = rightFlank2;
+          if (defenceFlank1 === 5) {
+            centerFightPlase = FightPlace.notSet;
+            rightFightPlase = FightPlace.notSet;
+            leftFightPlase = FightPlace.notSet;
+          }
         }
         break;
       case FightPlace.defence2:
@@ -230,6 +247,11 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
           );
           flankRows1.right = rightFlank1;
           flankRows2.defence = defenceFlank2;
+          if (defenceFlank2 === 5) {
+            centerFightPlase = FightPlace.notSet;
+            rightFightPlase = FightPlace.notSet;
+            leftFightPlase = FightPlace.notSet;
+          }
         }
         break;
     }
@@ -265,6 +287,11 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
           );
           flankRows1.defence = defenceFlank1;
           flankRows2.left = leftFlank2;
+          if (defenceFlank1 === 5) {
+            centerFightPlase = FightPlace.notSet;
+            rightFightPlase = FightPlace.notSet;
+            leftFightPlase = FightPlace.notSet;
+          }
         }
         break;
       case FightPlace.defence2:
@@ -280,11 +307,16 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
           );
           flankRows1.left = leftFlank1;
           flankRows2.defence = defenceFlank2;
+          if (defenceFlank2 === 5) {
+            centerFightPlase = FightPlace.notSet;
+            rightFightPlase = FightPlace.notSet;
+            leftFightPlase = FightPlace.notSet;
+          }
         }
         break;
     }
   }
-  console.log(unitData);
+  // console.log(unitData);
 
   return { logsData, unitData };
   // setLogData(logsData);

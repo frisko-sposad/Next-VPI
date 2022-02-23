@@ -79,7 +79,7 @@ export function Logs({ logsData }: Data): JSX.Element {
             <span className="pr-2">{alive1}</span>
 
             <span className="pr-2"> x </span>
-            <span className="pr-2">{alive1}</span>
+            <span className="pr-2">{alive2}</span>
           </>
         )}
 

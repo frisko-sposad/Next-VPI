@@ -142,20 +142,19 @@ function getIsFight(
       row2++;
     } else {
       if (number1 === 0) {
-        if (row1 >= 4) {
-          status = 'Войск игрока 1 не обнаружено. Победа игрока 2!';
-        } else {
-          status = 'Войск игрока 1 не обнаружено.';
-        }
+        status = 'Войск игрока 1 не обнаружено.';
         row1++;
       }
       if (number2 === 0) {
-        if (row2 >= 4) {
-          status = 'Войск игрока 2 не обнаружено. Победа игрока 2!';
-        } else {
-          status = 'Войск игрока 2 не обнаружено.';
-        }
+        status = 'Войск игрока 2 не обнаружено.';
         row2++;
+      }
+
+      if (row1 >= 4) {
+        status = status + ' Победа игрока 2!';
+      }
+      if (row2 >= 4) {
+        status = status + ' Победа игрока 1!';
       }
     }
   } else {
@@ -165,21 +164,11 @@ function getIsFight(
     if (superior1 || superior2) {
       isFight = false;
       if (superior1) {
-        if (row1 >= 4) {
-          status = 'Численный перевес у Ирока 2. Победа игрока 2!';
-        } else {
-          status = 'Численный перевес у Ирока 2.';
-        }
-
+        status = 'Численный перевес у Ирока 2.';
         row1++;
       }
       if (superior2) {
-        if (row2 >= 4) {
-          status = 'Численный перевес у Ирока 1. Победа игрока 1!';
-        } else {
-          status = 'Численный перевес у Ирока 1.';
-        }
-
+        status = 'Численный перевес у Ирока 1.';
         row2++;
       }
     } else {
@@ -187,23 +176,12 @@ function getIsFight(
       const moral2 = alive2 <= (number2 * (100 - morality2)) / 100;
 
       if (moral1 && !moral2) {
-        if (row1 >= 4) {
-          status = `${name1} игрока 1 отступают. Победа игрока 2!`;
-        } else {
-          status = `${name1} игрока 1 отступают.`;
-        }
-
+        status = `${name1} игрока 1 отступают.`;
         row1++;
         isFight = false;
       }
       if (moral2 && !moral1) {
-        if (row2 >= 4) {
-          status = `${name2} игрока 2 отступают. Победа игрока 1!`;
-        } else {
-          status = `${name2} игрока 2 отступают.`;
-        }
-
-        // status = `${name2} игрока 2 отступают.`;
+        status = `${name2} игрока 2 отступают.`;
         row2++;
         isFight = false;
       }
@@ -214,6 +192,13 @@ function getIsFight(
         row2++;
         isFight = false;
       }
+    }
+
+    if (row1 >= 4) {
+      status = status + ' Победа игрока 2!';
+    }
+    if (row2 >= 4) {
+      status = status + ' Победа игрока 1!';
     }
   }
 
@@ -233,6 +218,7 @@ export function getResultRoundFight(
   flankRow2: number,
   flankName1: string,
   flankName2: string,
+  revers?: boolean,
 ) {
   const squadUnit1 = flank1[flankRow1].squadUnit;
   const squadUnit2 = flank2[flankRow2].squadUnit;
@@ -250,6 +236,7 @@ export function getResultRoundFight(
     squadUnit2.squadAlive,
     flankName1,
     flankName2,
+    revers,
   );
 
   if (!isFight) {

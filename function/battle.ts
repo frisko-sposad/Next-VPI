@@ -59,7 +59,7 @@ enum Flank {
 
 export function battle(unitData: ParseData): { logsData: LogData[]; unitData: ParseData } {
   const logsData = [] as unknown as LogData[];
-  const roundNumber = 20;
+  const roundNumber = 50;
   const flankRows1 = {
     right: 0,
     left: 0,
@@ -115,20 +115,11 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
         round,
         row1,
         row2,
-
-        // расчёт ряда, чтоб не превышал 5
-        // row1: flankRows.centerFlank1 < 5 ? flankRows.centerFlank1 : 4,
-        // row2: flankRows.centerFlank2 < 5 ? flankRows.centerFlank2 : 4,
         ...result,
       });
-      // console.log(`if ${round}`);
 
       return { flankRow1, flankRow2 };
     } else {
-      // flankRows.centerFlank1 === 5 && console.log('Победа по центру у игрка 2');
-      // flankRows.centerFlank2 === 5 && console.log('Победа по центру у игрка 1');
-      // console.log(`else ${round}`);
-
       return { flankRow1: row1, flankRow2: row2 };
     }
   }
@@ -276,6 +267,8 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
         break;
       case FightPlace.defence1:
         {
+          player1.defence.reverse();
+
           const { flankRow1: defenceFlank1, flankRow2: leftFlank2 } = flankFight(
             player1.defence,
             player2.left,
@@ -292,6 +285,7 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
             rightFightPlase = FightPlace.notSet;
             leftFightPlase = FightPlace.notSet;
           }
+          player1.defence.reverse();
         }
         break;
       case FightPlace.defence2:

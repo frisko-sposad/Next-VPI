@@ -21,6 +21,7 @@ export interface squadUnitOld {
   cavalryDefense: number;
   swordDefense: number;
   spearDefense: number;
+  ready: boolean;
 }
 
 export interface UnitData {
@@ -52,6 +53,7 @@ export const unitsData: UnitData[] = [
       //   cavalryDefense: 1,
       //   swordDefense: 1,
       //   spearDefense: 1,
+      // ready: true,
       // },
       {
         id: 1,
@@ -71,6 +73,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1,
         spearDefense: 1,
+        ready: true,
       },
       {
         id: 2,
@@ -90,6 +93,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1,
         spearDefense: 1,
+        ready: true,
       },
       {
         id: 3,
@@ -109,6 +113,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1,
         spearDefense: 1,
+        ready: true,
       },
     ],
   },
@@ -134,6 +139,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 2,
         swordDefense: 1,
         spearDefense: 1,
+        ready: true,
       },
       {
         id: 5,
@@ -153,6 +159,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1,
         spearDefense: 1.5,
+        ready: true,
       },
       {
         id: 6,
@@ -172,6 +179,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1,
         spearDefense: 1,
+        ready: true,
       },
       {
         id: 7,
@@ -191,6 +199,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1.7,
         swordDefense: 1,
         spearDefense: 1,
+        ready: true,
       },
       {
         id: 8,
@@ -210,6 +219,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 0.7,
         swordDefense: 0.7,
         spearDefense: 1,
+        ready: true,
       },
       {
         id: 9,
@@ -229,6 +239,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1.3,
         swordDefense: 1,
         spearDefense: 1,
+        ready: true,
       },
       {
         id: 10,
@@ -248,6 +259,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 2,
         swordDefense: 1.5,
         spearDefense: 1,
+        ready: true,
       },
       {
         id: 11,
@@ -267,6 +279,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1.5,
         spearDefense: 1.5,
+        ready: true,
       },
       {
         id: 12,
@@ -286,6 +299,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1,
         spearDefense: 1.5,
+        ready: true,
       },
       {
         id: 13,
@@ -305,6 +319,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1.4,
         spearDefense: 1,
+        ready: true,
       },
       {
         id: 14,
@@ -324,6 +339,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1,
         spearDefense: 1,
+        ready: true,
       },
     ],
   },
@@ -349,6 +365,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1.2,
         swordDefense: 1.5,
         spearDefense: 2,
+        ready: true,
       },
       {
         id: 15,
@@ -368,6 +385,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1.2,
         spearDefense: 1.5,
+        ready: true,
       },
       {
         id: 16,
@@ -387,6 +405,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1.1,
         spearDefense: 1.1,
+        ready: true,
       },
       {
         id: 17,
@@ -406,6 +425,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1.2,
         swordDefense: 1,
         spearDefense: 1,
+        ready: true,
       },
       {
         id: 18,
@@ -425,6 +445,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1.2,
         spearDefense: 1,
+        ready: true,
       },
       {
         id: 19,
@@ -444,6 +465,7 @@ export const unitsData: UnitData[] = [
         cavalryDefense: 1,
         swordDefense: 1.2,
         spearDefense: 1.2,
+        ready: true,
       },
     ],
   },

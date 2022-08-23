@@ -18,6 +18,8 @@ export interface LogData {
   row2: number;
   number1: number;
   number2: number;
+  ready1: boolean;
+  ready2: boolean;
 }
 
 // export interface LogsData {
@@ -48,6 +50,8 @@ export function Logs({ logsData }: Data): JSX.Element {
       row2,
       number1,
       number2,
+      ready1,
+      ready2,
     } = round;
 
     return (
@@ -58,10 +62,20 @@ export function Logs({ logsData }: Data): JSX.Element {
         <span className="pr-2"> x </span>
         <span className="pr-2">{flankName2}2</span>
         <span className="pr-10">ряд{row2 + 1}</span>
-        {number1 !== 0 && <span className="pr-2">{name1}</span>}
+        {number1 !== 0 && (
+          <span className="pr-2">
+            {name1}
+            {ready1 ? '(+)' : '(-)'}
+          </span>
+        )}
         {number1 ? <span className="pr-2">{number1}</span> : <span className="pr-2">Не задано</span>}
         <span className="pr-2"> x </span>
-        {number2 !== 0 && <span className="pr-2">{name2}</span>}
+        {number2 !== 0 && (
+          <span className="pr-2">
+            {name2}
+            {ready2 ? '(+)' : '(-)'}
+          </span>
+        )}
         {number2 ? <span className="pr-2">{number2}</span> : <span className="pr-2">Не задано</span>}
 
         {number1 !== 0 && number2 !== 0 && (
@@ -75,7 +89,7 @@ export function Logs({ logsData }: Data): JSX.Element {
         )}
         {number1 !== 0 && number2 !== 0 && (
           <>
-            <span className="pr-2">Выжившие::</span>
+            <span className="pr-2">Выжившие:</span>
             <span className="pr-2">{alive1}</span>
 
             <span className="pr-2"> x </span>

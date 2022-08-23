@@ -57,6 +57,11 @@ enum Flank {
   defence = 'defence',
 }
 
+export enum Direction {
+  inOrder,
+  inReverse,
+}
+
 export function battle(unitData: ParseData): { logsData: LogData[]; unitData: ParseData } {
   const logsData = [] as unknown as LogData[];
   const roundNumber = 50;
@@ -65,12 +70,14 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
     left: 0,
     center: 0,
     defence: 0,
+    defenceReverse: 4,
   };
   const flankRows2 = {
     right: 0,
     left: 0,
     center: 0,
     defence: 0,
+    defenceReverse: 4,
   };
 
   let rightFightPlase = FightPlace.front;
@@ -87,19 +94,32 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
     round: number,
     place1: Flank,
     place2: Flank,
+    direction1: Direction,
+    direction2: Direction,
   ) {
     const flankName1 = `${flankData1[row1]?.squadFlank}`;
     const flankName2 = `${flankData2[row2]?.squadFlank}`;
 
-    if (row1 < 5 && row2 < 5) {
-      const result = getResultRoundFight(flankData1, flankData2, row1, row2, flankName1, flankName2);
+    if (row1 < 5 && row1 >= 0 && row2 < 5 && row2 >= 0) {
+      const result = getResultRoundFight(
+        flankData1,
+        flankData2,
+        row1,
+        row2,
+        flankName1,
+        flankName2,
+        direction1,
+        direction2,
+      );
 
-      const { flankRow1, flankRow2, alive1, alive2 } = result;
+      const { flankRow1, flankRow2, alive1, alive2, ready1, ready2 } = result;
 
       // нужно как стартовые войска в 1 раунде и остальных
       const number1 = unitData.player1[place1][row1].squadUnit.squadAlive;
       const number2 = unitData.player2[place2][row2].squadUnit.squadAlive;
 
+      unitData.player1[place1][row1].squadUnit.ready = ready1;
+      unitData.player2[place2][row2].squadUnit.ready = ready2;
       unitData.player1[place1][row1].squadUnit.squadAlive = alive1;
       unitData.player2[place2][row2].squadUnit.squadAlive = alive2;
       unitData.player1[place1][row1].squadUnit.squadLosses = Number(
@@ -108,6 +128,8 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
       unitData.player2[place2][row2].squadUnit.squadLosses = Number(
         (unitData.player2[place2][row2].squadUnit.squadNumber - alive2).toFixed(2),
       );
+
+      console.log(unitData);
 
       logsData.push({
         number1,
@@ -137,6 +159,8 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
             round,
             Flank.center,
             Flank.center,
+            Direction.inOrder,
+            Direction.inOrder,
           );
           flankRows1.center = centerFlank1;
           flankRows2.center = centerFlank2;
@@ -154,6 +178,8 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
             round,
             Flank.defence,
             Flank.center,
+            Direction.inOrder,
+            Direction.inOrder,
           );
           flankRows1.defence = defenceFlank1;
           flankRows2.center = centerFlank2;
@@ -174,6 +200,8 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
             round,
             Flank.center,
             Flank.defence,
+            Direction.inOrder,
+            Direction.inOrder,
           );
           flankRows1.center = centerFlank1;
           flankRows2.defence = defenceFlank2;
@@ -198,6 +226,8 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
             round,
             Flank.right,
             Flank.right,
+            Direction.inOrder,
+            Direction.inOrder,
           );
           flankRows1.right = rightFlank1;
           flankRows2.right = rightFlank2;
@@ -210,13 +240,15 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
           const { flankRow1: defenceFlank1, flankRow2: rightFlank2 } = flankFight(
             player1.defence,
             player2.right,
-            flankRows1.defence,
+            flankRows1.defenceReverse,
             flankRows2.right,
             round,
             Flank.defence,
             Flank.right,
+            Direction.inReverse,
+            Direction.inOrder,
           );
-          flankRows1.defence = defenceFlank1;
+          flankRows1.defenceReverse = defenceFlank1;
           flankRows2.right = rightFlank2;
           if (defenceFlank1 === 5) {
             centerFightPlase = FightPlace.notSet;
@@ -231,13 +263,15 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
             player1.right,
             player2.defence,
             flankRows1.right,
-            flankRows2.defence,
+            flankRows2.defenceReverse,
             round,
             Flank.right,
             Flank.defence,
+            Direction.inOrder,
+            Direction.inReverse,
           );
           flankRows1.right = rightFlank1;
-          flankRows2.defence = defenceFlank2;
+          flankRows2.defenceReverse = defenceFlank2;
           if (defenceFlank2 === 5) {
             centerFightPlase = FightPlace.notSet;
             rightFightPlase = FightPlace.notSet;
@@ -258,6 +292,8 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
             round,
             Flank.left,
             Flank.left,
+            Direction.inOrder,
+            Direction.inOrder,
           );
           flankRows1.left = leftFlank1;
           flankRows2.left = leftFlank2;
@@ -267,25 +303,24 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
         break;
       case FightPlace.defence1:
         {
-          player1.defence.reverse();
-
           const { flankRow1: defenceFlank1, flankRow2: leftFlank2 } = flankFight(
             player1.defence,
             player2.left,
-            flankRows1.defence,
+            flankRows1.defenceReverse,
             flankRows2.left,
             round,
             Flank.defence,
             Flank.left,
+            Direction.inReverse,
+            Direction.inOrder,
           );
-          flankRows1.defence = defenceFlank1;
+          flankRows1.defenceReverse = defenceFlank1;
           flankRows2.left = leftFlank2;
           if (defenceFlank1 === 5) {
             centerFightPlase = FightPlace.notSet;
             rightFightPlase = FightPlace.notSet;
             leftFightPlase = FightPlace.notSet;
           }
-          player1.defence.reverse();
         }
         break;
       case FightPlace.defence2:
@@ -294,13 +329,15 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
             player1.left,
             player2.defence,
             flankRows1.left,
-            flankRows2.defence,
+            flankRows2.defenceReverse,
             round,
             Flank.left,
             Flank.defence,
+            Direction.inOrder,
+            Direction.inReverse,
           );
           flankRows1.left = leftFlank1;
-          flankRows2.defence = defenceFlank2;
+          flankRows2.defenceReverse = defenceFlank2;
           if (defenceFlank2 === 5) {
             centerFightPlase = FightPlace.notSet;
             rightFightPlase = FightPlace.notSet;

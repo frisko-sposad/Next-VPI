@@ -1,6 +1,6 @@
 import { Hero } from '../public/database/heroes-data';
 import { Weapon } from '../public/database/units-data';
-import { FlankRow, squadUnit } from './battle';
+import { Direction, FlankRow, squadUnit } from './battle';
 
 function getAttackBonus(unit1: squadUnit, unit2: squadUnit, hero1: Hero, hero2: Hero) {
   // проверяем какое оружие у врага и даём бонус против этого оружия
@@ -131,6 +131,10 @@ function getIsFight(
   alive2: number,
   flankName1: string,
   flankName2: string,
+  direction1: Direction,
+  direction2: Direction,
+  ready1: boolean,
+  ready2: boolean,
 ) {
   status = 'Идёт бой';
   let isFight = true;
@@ -138,16 +142,16 @@ function getIsFight(
     isFight = false;
     if (number1 === 0 && number2 === 0) {
       status = 'Войск не обнаружено.';
-      row1++;
-      row2++;
+      direction1 === Direction.inOrder ? row1++ : row1--;
+      direction2 === Direction.inOrder ? row2++ : row2--;
     } else {
       if (number1 === 0) {
         status = 'Войск игрока 1 не обнаружено.';
-        row1++;
+        direction1 === Direction.inOrder ? row1++ : row1--;
       }
       if (number2 === 0) {
         status = 'Войск игрока 2 не обнаружено.';
-        row2++;
+        direction2 === Direction.inOrder ? row2++ : row2--;
       }
 
       if (row1 >= 4) {
@@ -165,11 +169,13 @@ function getIsFight(
       isFight = false;
       if (superior1) {
         status = 'Численный перевес у Ирока 2.';
-        row1++;
+        direction1 === Direction.inOrder ? row1++ : row1--;
+        ready1 = false;
       }
       if (superior2) {
         status = 'Численный перевес у Ирока 1.';
-        row2++;
+        direction2 === Direction.inOrder ? row2++ : row2--;
+        ready2 = false;
       }
     } else {
       const moral1 = alive1 <= (number1 * (100 - morality1)) / 100;
@@ -177,28 +183,38 @@ function getIsFight(
 
       if (moral1 && !moral2) {
         status = `${name1} игрока 1 отступают.`;
-        row1++;
+        direction1 === Direction.inOrder ? row1++ : row1--;
         isFight = false;
+        ready1 = false;
       }
       if (moral2 && !moral1) {
         status = `${name2} игрока 2 отступают.`;
-        row2++;
+        direction2 === Direction.inOrder ? row2++ : row2--;
         isFight = false;
+        ready2 = false;
       }
 
       if (moral1 && moral2) {
         status = `Оба отряда отступают.`;
-        row1++;
-        row2++;
+        direction1 === Direction.inOrder ? row1++ : row1--;
+        direction2 === Direction.inOrder ? row2++ : row2--;
         isFight = false;
+        ready1 = false;
+        ready2 = false;
       }
     }
 
-    if (row1 >= 4) {
-      status = status + ' Победа игрока 2!';
+    if (direction1 === Direction.inOrder && row1 >= 4) {
+      status = status + ' Победа игрока 2 inOrder!';
     }
-    if (row2 >= 4) {
-      status = status + ' Победа игрока 1!';
+    if (direction2 === Direction.inOrder && row2 >= 4) {
+      status = status + ' Победа игрока 1 inOrder!';
+    }
+    if (direction1 === Direction.inReverse && row1 <= 0) {
+      status = status + ' Победа игрока 2 inReverse!';
+    }
+    if (direction2 === Direction.inReverse && row2 <= 0) {
+      status = status + ' Победа игрока 1 inReverse!';
     }
   }
 
@@ -206,9 +222,7 @@ function getIsFight(
     status = `Ничья на ${flankName1}-${flankName2}`;
   }
 
-  // console.log({ row1, row2 });
-
-  return { row1, row2, isFight };
+  return { row1, row2, isFight, ready1, ready2 };
 }
 
 export function getResultRoundFight(
@@ -218,12 +232,13 @@ export function getResultRoundFight(
   flankRow2: number,
   flankName1: string,
   flankName2: string,
-  revers?: boolean,
+  direction1: Direction,
+  direction2: Direction,
 ) {
   const squadUnit1 = flank1[flankRow1].squadUnit;
   const squadUnit2 = flank2[flankRow2].squadUnit;
 
-  const { row1, row2, isFight } = getIsFight(
+  const { row1, row2, isFight, ready1, ready2 } = getIsFight(
     squadUnit1.squadNumber,
     squadUnit2.squadNumber,
     flankRow1,
@@ -236,10 +251,13 @@ export function getResultRoundFight(
     squadUnit2.squadAlive,
     flankName1,
     flankName2,
-    revers,
+    direction1,
+    direction2,
+    squadUnit1.ready,
+    squadUnit2.ready,
   );
 
-  if (!isFight) {
+  if (!isFight || !ready1 || !ready2) {
     return {
       name1: squadUnit1.name,
       name2: squadUnit2.name,
@@ -252,6 +270,8 @@ export function getResultRoundFight(
       flankName1,
       flankName2,
       status,
+      ready1,
+      ready2,
     };
   } else {
     const { alive1, alive2, lossesPlayer1, lossesPlayer2 } = fight(
@@ -275,6 +295,8 @@ export function getResultRoundFight(
       flankName1,
       flankName2,
       status,
+      ready1,
+      ready2,
     };
   }
 }

@@ -19,7 +19,7 @@ export function getParseData(data: Record<string, RawData>) {
         const squadInfo = data[player][flank][squad];
 
         const squadNumber = Number(squadInfo.unitNumber);
-        const squadHero = JSON.parse(data[player][flank].hero);
+        const squadHero = JSON.parse(`${data[player][flank].hero}`);
         const squadUnit = squadInfo.unitData && JSON.parse(squadInfo.unitData);
 
         if (squadUnit) {

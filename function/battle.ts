@@ -17,9 +17,9 @@ export interface squadUnit extends squadUnitOld {
   attackHorseman: number;
   attackSwordsman: number;
   attackSpearman: number;
-  cavalryDefense: number;
-  swordDefense: number;
-  spearDefense: number;
+  defenseHorseman: number;
+  defenseSword: number;
+  defenseSpear: number;
   squadNumber: number;
   squadAlive: number;
   squadLosses: number;
@@ -50,7 +50,7 @@ enum FightPlace {
   notSet = 'notSet',
 }
 
-enum Flank {
+export enum Flank {
   center = 'center',
   right = 'right',
   left = 'left',
@@ -110,6 +110,8 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
         flankName2,
         direction1,
         direction2,
+        place1,
+        place2,
       );
 
       const { flankRow1, flankRow2, alive1, alive2, ready1, ready2 } = result;
@@ -128,8 +130,6 @@ export function battle(unitData: ParseData): { logsData: LogData[]; unitData: Pa
       unitData.player2[place2][row2].squadUnit.squadLosses = Number(
         (unitData.player2[place2][row2].squadUnit.squadNumber - alive2).toFixed(2),
       );
-
-      console.log(unitData);
 
       logsData.push({
         number1,

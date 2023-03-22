@@ -131,15 +131,15 @@ const Units = () => {
         columns: [
           {
             Header: 'cavalry',
-            accessor: 'cavalryDefense',
+            accessor: 'defenseHorseman',
           },
           {
             Header: 'sword',
-            accessor: 'swordDefense',
+            accessor: 'defenseSword',
           },
           {
             Header: 'spear',
-            accessor: 'spearDefense',
+            accessor: 'defenseSpear',
           },
         ],
       },

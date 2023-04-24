@@ -1,6 +1,7 @@
 import React from 'react';
 import { Heroes } from './heroes';
 import { Row } from './row';
+import { Fortification } from './fortification';
 
 interface BattleFlank {
   player: string;
@@ -17,6 +18,7 @@ const BattleFlank = ({ flank, player }: BattleFlank) => {
       <Row player={player} rowNumber="3" flank={flank[1]} />
       <Row player={player} rowNumber="4" flank={flank[1]} />
       <Row player={player} rowNumber="5" flank={flank[1]} />
+      <Fortification player={player} flank={flank[1]} />
     </div>
   );
 };

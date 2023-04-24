@@ -19,7 +19,7 @@ export function Heroes({ player, flank }: Heroes): JSX.Element {
   });
 
   return (
-    <div>
+    <div className="pt-1">
       <select className="border rounded text-right" {...register(`${player}.${flank}.hero`)}>
         {options}
       </select>

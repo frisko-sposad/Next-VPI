@@ -20,6 +20,8 @@ export function getParseData(data: Record<string, RawData>) {
 
         const squadNumber = Number(squadInfo.unitNumber);
         const squadHero = JSON.parse(`${data[player][flank].hero}`);
+        const squadFortification =
+          data[player][flank].fortification && JSON.parse(`${data[player][flank].fortification}`);
         const squadUnit = squadInfo.unitData && JSON.parse(squadInfo.unitData);
 
         if (squadUnit) {
@@ -28,8 +30,8 @@ export function getParseData(data: Record<string, RawData>) {
           squadUnit['squadLosses'] = 0;
         }
 
-        if (squad !== 'hero') {
-          newDataSquad.push({ squadUnit, squadHero, squadFlank });
+        if (squad !== 'hero' && squad !== 'fortification') {
+          newDataSquad.push({ squadUnit, squadHero, squadFlank, squadFortification });
         }
       }
 
@@ -37,6 +39,7 @@ export function getParseData(data: Record<string, RawData>) {
     }
     newData[`${player}`] = newDataFlank;
   }
+  console.log({ newData, data });
 
   return newData;
 }

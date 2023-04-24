@@ -41,8 +41,6 @@ export function Logs({ logsData }: Data): JSX.Element {
       losses2,
       name1,
       name2,
-      flankRow1,
-      flankRow2,
       flankName1,
       flankName2,
       status,
@@ -50,7 +48,7 @@ export function Logs({ logsData }: Data): JSX.Element {
       row2,
       number1,
       number2,
-      ready1,
+      ready1, // статус отступают или нет
       ready2,
     } = round;
 

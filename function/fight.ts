@@ -1,8 +1,18 @@
+import { Fortification, fortificationData } from '../public/database/fortification-data';
 import { Hero } from '../public/database/heroes-data';
 import { Weapon } from '../public/database/units-data';
 import { Direction, Flank, FlankRow, squadUnit } from './battle';
 
-function getAttackBonus(unit1: squadUnit, unit2: squadUnit, hero1: Hero, hero2: Hero, place1: Flank, place2: Flank) {
+function getAttackBonus(
+  unit1: squadUnit,
+  unit2: squadUnit,
+  hero1: Hero,
+  hero2: Hero,
+  place1: Flank,
+  place2: Flank,
+  fortification1: Fortification,
+  fortification2: Fortification,
+) {
   // проверяем какое оружие у врага и даём бонус против этого оружия
   // const weaponBonus1 =
   //   unit2.weapon === Weapon.sword
@@ -12,44 +22,71 @@ function getAttackBonus(unit1: squadUnit, unit2: squadUnit, hero1: Hero, hero2: 
   //   unit1.weapon === Weapon.sword
   //     ? unit2.attackSwordsman * hero2.attackSwordsman
   //     : unit2.attackSpearman * hero2.attackSpearman;
+  console.log({ fortification1, fortification2 });
+  // const attackSwordsman1 = fortification1 ? fortification1.attackSwordsman : 1;
+
+  const {
+    attackSwordsman: attackSwordsman1 = 1,
+    defenseSword: defenseSword1 = 1,
+    attackSpearman: attackSpearman1 = 1,
+    defenseSpear: defenseSpear1 = 1,
+    attackHorseman: attackHorseman1 = 1,
+    defenseHorseman: defenseHorseman1 = 1,
+    attackBonus: attackBonus1 = 0,
+  } = fortification1 ? fortification1 : fortificationData[0];
+  const {
+    attackSwordsman: attackSwordsman2 = 1,
+    defenseSword: defenseSword2 = 1,
+    attackSpearman: attackSpearman2 = 1,
+    defenseSpear: defenseSpear2 = 1,
+    attackHorseman: attackHorseman2 = 1,
+    defenseHorseman: defenseHorseman2 = 1,
+    attackBonus: attackBonus2 = 0,
+  } = fortification2 ? fortification2 : fortificationData[0];
 
   let weaponBonus1;
   if (unit2.weapon === Weapon.sword)
     weaponBonus1 =
       place1 !== Flank.defence
-        ? unit1.attackSwordsman * hero1.attackSwordsman
-        : unit1.defenseSword * hero1.defenseSword;
+        ? unit1.attackSwordsman * hero1.attackSwordsman * attackSwordsman1
+        : unit1.defenseSword * hero1.defenseSword * defenseSword1;
   else
     weaponBonus1 =
-      place1 !== Flank.defence ? unit1.attackSpearman * hero1.attackSpearman : unit1.defenseSpear * hero1.defenseSpear;
+      place1 !== Flank.defence
+        ? unit1.attackSpearman * hero1.attackSpearman * attackSpearman1
+        : unit1.defenseSpear * hero1.defenseSpear * defenseSpear1;
 
   let weaponBonus2;
   if (unit1.weapon === Weapon.sword)
     weaponBonus2 =
       place2 !== Flank.defence
-        ? unit2.attackSwordsman * hero2.attackSwordsman
-        : unit2.defenseSword * hero2.defenseSword;
+        ? unit2.attackSwordsman * hero2.attackSwordsman * attackSwordsman2
+        : unit2.defenseSword * hero2.defenseSword * defenseSword2;
   else
     weaponBonus2 =
-      place2 !== Flank.defence ? unit2.attackSpearman * hero2.attackSpearman : unit2.defenseSpear * hero2.defenseSpear;
+      place2 !== Flank.defence
+        ? unit2.attackSpearman * hero2.attackSpearman * attackSpearman2
+        : unit2.defenseSpear * hero2.defenseSpear * defenseSpear2;
 
   const horseManBonus1 =
     place1 !== Flank.defence
-      ? unit1.attackHorseman * hero1.attackHorseman
-      : unit1.defenseHorseman * hero1.defenseHorseman;
+      ? unit1.attackHorseman * hero1.attackHorseman * attackHorseman1
+      : unit1.defenseHorseman * hero1.defenseHorseman * defenseHorseman1;
   const horseManBonus2 =
     place2 !== Flank.defence
-      ? unit2.attackHorseman * hero2.attackHorseman
-      : unit2.defenseHorseman * hero2.defenseHorseman;
+      ? unit2.attackHorseman * hero2.attackHorseman * attackHorseman2
+      : unit2.defenseHorseman * hero2.defenseHorseman * defenseHorseman2;
 
   // проверяем если враг на коне, даём бонус против конницы иначе против типа оружия
   const attackOnCavalryBonus1 = unit2.horse && horseManBonus1;
   const attackOnCavalryBonus2 = unit1.horse && horseManBonus2;
 
   // суммарная атака, если нет бонуса против конницы то действует бонус против оружия
-  const attack1 = (unit1.attack + hero1.attackBonus) * (attackOnCavalryBonus1 ? attackOnCavalryBonus1 : weaponBonus1);
-  const attack2 = (unit2.attack + hero2.attackBonus) * (attackOnCavalryBonus2 ? attackOnCavalryBonus2 : weaponBonus2);
-  console.log(place1, place2, attack1, attack2);
+  const attack1 =
+    (unit1.attack + hero1.attackBonus + attackBonus1) * (attackOnCavalryBonus1 ? attackOnCavalryBonus1 : weaponBonus1);
+  const attack2 =
+    (unit2.attack + hero2.attackBonus + attackBonus2) * (attackOnCavalryBonus2 ? attackOnCavalryBonus2 : weaponBonus2);
+
   return { attack1, attack2 };
 }
 
@@ -82,7 +119,6 @@ function getLosses(
     Math.floor((((attack2 * fightSize) / unit1.size + distanceAttackBonus2) / unit1.health) * 100) / 100;
   const lossesPlayer2 =
     Math.floor((((attack1 * fightSize) / unit2.size + distanceAttackBonus1) / unit2.health) * 100) / 100;
-  console.log(lossesPlayer1, lossesPlayer2);
 
   return { lossesPlayer1, lossesPlayer2 };
 }
@@ -120,8 +156,8 @@ export function fight(
   place1: Flank,
   place2: Flank,
 ) {
-  const { squadUnit: squad1, squadHero: hero1 } = flank1[row1];
-  const { squadUnit: squad2, squadHero: hero2 } = flank2[row2];
+  const { squadUnit: squad1, squadHero: hero1, squadFortification: fortification1 } = flank1[row1];
+  const { squadUnit: squad2, squadHero: hero2, squadFortification: fortification2 } = flank2[row2];
 
   // const squadNumber1 = Number(currentUnitsFlank1 ? currentUnitsFlank1 : squad1.squadNumber);
   // const squadNumber2 = Number(currentUnitsFlank2 ? currentUnitsFlank2 : squad2.squadNumber);
@@ -130,7 +166,16 @@ export function fight(
   const distanceAttackBonus1 = getDistanceAttackBonus(flank1, row1, fightSize);
   const distanceAttackBonus2 = getDistanceAttackBonus(flank2, row2, fightSize);
 
-  const { attack1, attack2 } = getAttackBonus(squad1, squad2, hero1, hero2, place1, place2);
+  const { attack1, attack2 } = getAttackBonus(
+    squad1,
+    squad2,
+    hero1,
+    hero2,
+    place1,
+    place2,
+    fortification1,
+    fortification2,
+  );
 
   const { lossesPlayer1, lossesPlayer2 } = getLosses(
     squad1,

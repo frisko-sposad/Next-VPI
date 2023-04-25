@@ -39,7 +39,7 @@ export function getParseData(data: Record<string, RawData>) {
     }
     newData[`${player}`] = newDataFlank;
   }
-  console.log({ newData, data });
+  // console.log({ newData, data });
 
   return newData;
 }

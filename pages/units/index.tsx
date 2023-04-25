@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
 import { useExpanded, useTable } from 'react-table';
 import { unitsData } from '../../public/database/units-data';
+import { fortificationData } from '../../public/database/fortification-data';
+import { heroesData } from '../../public/database/heroes-data';
 
-const Table = ({ columns: userColumns, data }) => {
+const Table = ({ columns: userColumns, data }: any) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     { columns: userColumns, data },
     useExpanded,
@@ -52,15 +54,15 @@ const Table = ({ columns: userColumns, data }) => {
   );
 };
 
-const Units = () => {
-  const data = useMemo(() => unitsData, []);
+const StatsTable = () => {
+  const dataUnits = useMemo(() => unitsData, []);
 
-  const columns = useMemo(
+  const columnsUnits = useMemo(
     () => [
       {
         id: 'expander',
         Header: '',
-        Cell: ({ row }) =>
+        Cell: ({ row }: any) =>
           row.canExpand ? (
             <span
               {...row.getToggleRowExpandedProps({
@@ -147,11 +149,162 @@ const Units = () => {
     [],
   );
 
+  const dataHeroes = useMemo(() => heroesData, []);
+
+  const columnsHeroes = useMemo(
+    () => [
+      {
+        id: 'expander',
+        Header: '',
+        Cell: ({ row }: any) =>
+          row.canExpand ? (
+            <span
+              {...row.getToggleRowExpandedProps({
+                style: {
+                  paddingLeft: `${row.depth * 2}rem`,
+                },
+              })}
+            >
+              {row.isExpanded ? '-' : '+'}
+            </span>
+          ) : null,
+      },
+      {
+        Header: 'id',
+        accessor: 'id',
+      },
+      {
+        Header: 'heroName',
+        accessor: 'heroName',
+      },
+      {
+        Header: 'attackBonus',
+        accessor: 'attackBonus',
+      },
+
+      {
+        Header: 'Attack',
+        columns: [
+          {
+            Header: 'Horseman',
+            accessor: 'attackHorseman',
+          },
+          {
+            Header: 'Swordsman',
+            accessor: 'attackSwordsman',
+          },
+          {
+            Header: 'Spearman',
+            accessor: 'attackSpearman',
+          },
+        ],
+      },
+      {
+        Header: 'Defense',
+        columns: [
+          {
+            Header: 'cavalry',
+            accessor: 'defenseHorseman',
+          },
+          {
+            Header: 'sword',
+            accessor: 'defenseSword',
+          },
+          {
+            Header: 'spear',
+            accessor: 'defenseSpear',
+          },
+        ],
+      },
+    ],
+    [],
+  );
+
+  const dataFortification = useMemo(() => fortificationData, []);
+
+  const columnsFortification = useMemo(
+    () => [
+      {
+        id: 'expander',
+        Header: '',
+        Cell: ({ row }: any) =>
+          row.canExpand ? (
+            <span
+              {...row.getToggleRowExpandedProps({
+                style: {
+                  paddingLeft: `${row.depth * 2}rem`,
+                },
+              })}
+            >
+              {row.isExpanded ? '-' : '+'}
+            </span>
+          ) : null,
+      },
+      {
+        Header: 'id',
+        accessor: 'id',
+      },
+      {
+        Header: 'fortificationName',
+        accessor: 'fortificationName',
+      },
+      {
+        Header: 'attackBonus',
+        accessor: 'attackBonus',
+      },
+      {
+        Header: 'Attack',
+        columns: [
+          {
+            Header: 'Horseman',
+            accessor: 'attackHorseman',
+          },
+          {
+            Header: 'Swordsman',
+            accessor: 'attackSwordsman',
+          },
+          {
+            Header: 'Spearman',
+            accessor: 'attackSpearman',
+          },
+        ],
+      },
+      {
+        Header: 'Defense',
+        columns: [
+          {
+            Header: 'cavalry',
+            accessor: 'defenseHorseman',
+          },
+          {
+            Header: 'sword',
+            accessor: 'defenseSword',
+          },
+          {
+            Header: 'spear',
+            accessor: 'defenseSpear',
+          },
+        ],
+      },
+    ],
+    [],
+  );
+
   return (
     <div className="flex justify-center">
-      <Table columns={columns} data={data} />
+      <div className="flex-col">
+        <div className="pb-10">
+          <Table columns={columnsUnits} data={dataUnits} />
+        </div>
+        <div className="pb-10">
+          <Table columns={columnsHeroes} data={dataHeroes} />
+        </div>
+        <div className="pb-10">
+          <Table columns={columnsFortification} data={dataFortification} />
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Units;
+export default StatsTable;

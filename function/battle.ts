@@ -1,4 +1,5 @@
 import { LogData } from '../components/logs';
+import { Fortification } from '../public/database/fortification-data';
 import { Hero } from '../public/database/heroes-data';
 import { squadUnitOld, Weapon } from '../public/database/units-data';
 import { getResultRoundFight } from './fight';
@@ -28,6 +29,7 @@ export interface squadUnit extends squadUnitOld {
 export interface FlankRow {
   squadUnit: squadUnit;
   squadHero: Hero;
+  squadFortification: Fortification;
   squadFlank: string;
 }
 

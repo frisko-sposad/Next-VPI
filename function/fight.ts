@@ -91,15 +91,12 @@ function getAttackBonus(
 
 function getFightSize(number1: number, number2: number, squad1: squadUnit, squad2: squadUnit): number {
   let fightSize = 0;
-  // unit1.squadNumber <= 0 && console.log('Units p1 not found', unit1.squadNumber);
-  // unit2.squadNumber <= 0 && console.log('Units p2 not found', unit2.squadNumber);
 
   if (number1 * squad1.size <= number2 * squad2.size) {
     fightSize = number1 * squad1.size;
   } else {
     fightSize = number2 * squad2.size;
   }
-  // console.log(fightSize);
 
   return fightSize;
 }
@@ -217,8 +214,6 @@ function getIsFight(
   const allMorality1 = morality1 + moralityBonus1;
   const allMorality2 = morality2 + moralityBonus2;
 
-  console.log({ morality1, moralityBonus1, allMorality1 });
-
   status = 'Идёт бой';
   let isFight = true;
   if (number1 === 0 || number2 === 0) {
@@ -322,8 +317,6 @@ export function getResultRoundFight(
 ) {
   const squadUnit1 = flank1[flankRow1].squadUnit;
   const squadUnit2 = flank2[flankRow2].squadUnit;
-
-  console.log(flank1[0].squadHero.moralityBonus);
 
   const moralityBonus1 = flank1[0].squadHero.moralityBonus;
   const moralityBonus2 = flank2[0].squadHero.moralityBonus;

@@ -22,7 +22,6 @@ function getAttackBonus(
   //   unit1.weapon === Weapon.sword
   //     ? unit2.attackSwordsman * hero2.attackSwordsman
   //     : unit2.attackSpearman * hero2.attackSpearman;
-  console.log({ fortification1, fortification2 });
   // const attackSwordsman1 = fortification1 ? fortification1.attackSwordsman : 1;
 
   const {
@@ -212,7 +211,14 @@ function getIsFight(
   direction2: Direction,
   ready1: boolean,
   ready2: boolean,
+  moralityBonus1: number,
+  moralityBonus2: number,
 ) {
+  const allMorality1 = morality1 + moralityBonus1;
+  const allMorality2 = morality2 + moralityBonus2;
+
+  console.log({ morality1, moralityBonus1, allMorality1 });
+
   status = 'Идёт бой';
   let isFight = true;
   if (number1 === 0 || number2 === 0) {
@@ -239,8 +245,8 @@ function getIsFight(
       }
     }
   } else {
-    const superior1 = alive1 * morality1 <= (number2 * morality1) / 10;
-    const superior2 = alive2 * morality2 <= (number1 * morality2) / 10;
+    const superior1 = alive1 * allMorality1 <= (number2 * allMorality1) / 10;
+    const superior2 = alive2 * allMorality2 <= (number1 * allMorality2) / 10;
 
     if (superior1 || superior2) {
       isFight = false;
@@ -255,8 +261,8 @@ function getIsFight(
         ready2 = false;
       }
     } else {
-      const moral1 = alive1 <= (number1 * (100 - morality1)) / 100;
-      const moral2 = alive2 <= (number2 * (100 - morality2)) / 100;
+      const moral1 = alive1 <= (number1 * (100 - allMorality1)) / 100;
+      const moral2 = alive2 <= (number2 * (100 - allMorality2)) / 100;
 
       if (moral1 && !moral2) {
         status = `${name1} игрока 1 отступают.`;
@@ -317,6 +323,11 @@ export function getResultRoundFight(
   const squadUnit1 = flank1[flankRow1].squadUnit;
   const squadUnit2 = flank2[flankRow2].squadUnit;
 
+  console.log(flank1[0].squadHero.moralityBonus);
+
+  const moralityBonus1 = flank1[0].squadHero.moralityBonus;
+  const moralityBonus2 = flank2[0].squadHero.moralityBonus;
+
   const { row1, row2, isFight, ready1, ready2 } = getIsFight(
     squadUnit1.squadNumber,
     squadUnit2.squadNumber,
@@ -334,6 +345,8 @@ export function getResultRoundFight(
     direction2,
     squadUnit1.ready,
     squadUnit2.ready,
+    moralityBonus1,
+    moralityBonus2,
   );
 
   if (!isFight || !ready1 || !ready2) {

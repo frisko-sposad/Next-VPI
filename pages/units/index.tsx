@@ -81,67 +81,67 @@ const StatsTable = () => {
         accessor: 'id',
       },
       {
-        Header: 'name',
+        Header: 'Тип Юнита',
         accessor: 'name',
       },
       {
-        Header: 'weapon',
+        Header: 'Оружие',
         accessor: 'weapon',
       },
       {
-        Header: 'attack',
+        Header: 'Атака',
         accessor: 'attack',
       },
       {
-        Header: 'distanceAttack',
+        Header: 'Дальняя атака',
         accessor: 'distanceAttack',
       },
       {
-        Header: 'health',
+        Header: 'Здоровье',
         accessor: 'health',
       },
       {
-        Header: 'morality',
+        Header: 'Мораль',
         accessor: 'morality',
       },
       {
-        Header: 'size',
+        Header: 'Размер(Вес)',
         accessor: 'size',
       },
       {
-        Header: 'price',
+        Header: 'Цена(Золото)',
         accessor: 'price',
       },
       {
-        Header: 'Attack',
+        Header: 'Бонус в Атаке по',
         columns: [
           {
-            Header: 'Horseman',
+            Header: 'Всадникам',
             accessor: 'attackHorseman',
           },
           {
-            Header: 'Swordsman',
+            Header: 'Мечникам',
             accessor: 'attackSwordsman',
           },
           {
-            Header: 'Spearman',
+            Header: 'Копейщикам',
             accessor: 'attackSpearman',
           },
         ],
       },
       {
-        Header: 'Defense',
+        Header: 'Бонус в Тылу от',
         columns: [
           {
-            Header: 'cavalry',
+            Header: 'Всадников',
             accessor: 'defenseHorseman',
           },
           {
-            Header: 'sword',
+            Header: 'Мечников',
             accessor: 'defenseSword',
           },
           {
-            Header: 'spear',
+            Header: 'Копейщиков',
             accessor: 'defenseSpear',
           },
         ],
@@ -175,48 +175,57 @@ const StatsTable = () => {
         accessor: 'id',
       },
       {
-        Header: 'heroName',
+        Header: 'Командир',
         accessor: 'heroName',
-      },
-      {
-        Header: 'attackBonus',
-        accessor: 'attackBonus',
-      },
-      {
-        Header: 'healthBonus',
-        accessor: 'healthBonus',
       },
 
       {
-        Header: 'Attack',
+        Header: 'Постоянный бонус',
         columns: [
           {
-            Header: 'Horseman',
+            Header: 'Атака',
+            accessor: 'attackBonus',
+          },
+          {
+            Header: 'Здоровье',
+            accessor: 'healthBonus',
+          },
+          {
+            Header: 'Мораль',
+            accessor: 'moralityBonus',
+          },
+        ],
+      },
+      {
+        Header: 'Бонус в Атаке по',
+        columns: [
+          {
+            Header: 'Всадникам',
             accessor: 'attackHorseman',
           },
           {
-            Header: 'Swordsman',
+            Header: 'Мечниками',
             accessor: 'attackSwordsman',
           },
           {
-            Header: 'Spearman',
+            Header: 'Копейщикам',
             accessor: 'attackSpearman',
           },
         ],
       },
       {
-        Header: 'Defense',
+        Header: 'Бонус в тылу от',
         columns: [
           {
-            Header: 'cavalry',
+            Header: 'Всадников',
             accessor: 'defenseHorseman',
           },
           {
-            Header: 'sword',
+            Header: 'Мечников',
             accessor: 'defenseSword',
           },
           {
-            Header: 'spear',
+            Header: 'Копейщиков',
             accessor: 'defenseSpear',
           },
         ],
@@ -250,7 +259,7 @@ const StatsTable = () => {
         accessor: 'id',
       },
       {
-        Header: 'fortificationName',
+        Header: 'Укрепления',
         accessor: 'fortificationName',
       },
       {
@@ -258,35 +267,35 @@ const StatsTable = () => {
         accessor: 'attackBonus',
       },
       {
-        Header: 'Attack',
+        Header: 'Бонус в Атаке по',
         columns: [
           {
-            Header: 'Horseman',
+            Header: 'Всадникам',
             accessor: 'attackHorseman',
           },
           {
-            Header: 'Swordsman',
+            Header: 'Мечниками',
             accessor: 'attackSwordsman',
           },
           {
-            Header: 'Spearman',
+            Header: 'Копейщикам',
             accessor: 'attackSpearman',
           },
         ],
       },
       {
-        Header: 'Defense',
+        Header: 'Бонус в тылу от',
         columns: [
           {
-            Header: 'cavalry',
+            Header: 'Всадников',
             accessor: 'defenseHorseman',
           },
           {
-            Header: 'sword',
+            Header: 'Мечников',
             accessor: 'defenseSword',
           },
           {
-            Header: 'spear',
+            Header: 'Копейщиков',
             accessor: 'defenseSpear',
           },
         ],

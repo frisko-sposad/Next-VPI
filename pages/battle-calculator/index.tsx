@@ -77,8 +77,8 @@ const App = () => {
         </form>
       </FormProvider>
       {/* {Object.keys(unitsData).length !== 0 && <Report data={unitsData} />} */}
-      {Object.keys(logsData).length !== 0 && <Logs logsData={logsData} />}
       <BattleResults resultBattleData={resultBattleData} />
+      {Object.keys(logsData).length !== 0 && <Logs logsData={logsData} />}
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { useFormContext } from 'react-hook-form';
-import { fortificationData } from '../public/database/fortification-data';
+import { fortificationData } from '../../public/database/fortification-data';
 import React from 'react';
-import { Flank } from '../function/battle';
+import { Flank } from '../../function/battle';
 
 interface Fortification {
   player: string;

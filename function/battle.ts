@@ -1,4 +1,4 @@
-import { LogData } from '../components/logs';
+import { LogData } from '../components/Calculator/logs';
 import { Fortification } from '../public/database/fortification-data';
 import { Hero } from '../public/database/heroes-data';
 import { squadUnitOld, Weapon } from '../public/database/units-data';

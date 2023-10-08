@@ -1,3 +1,7 @@
+const dns = require('dns');
+
+dns.setDefaultResultOrder('ipv4first');
+
 module.exports = {
   reactStrictMode: true,
   typescript: {

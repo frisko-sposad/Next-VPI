@@ -1,5 +1,5 @@
 import { useFormContext } from 'react-hook-form';
-import { unitsData } from '../public/database/units-data';
+import { unitsData } from '../../public/database/units-data';
 import React from 'react';
 
 interface Row {

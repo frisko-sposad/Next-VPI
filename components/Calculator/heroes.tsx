@@ -1,5 +1,5 @@
 import { useFormContext } from 'react-hook-form';
-import { heroesData } from '../public/database/heroes-data';
+import { heroesData } from '../../public/database/heroes-data';
 import React from 'react';
 
 interface Heroes {

@@ -21,13 +21,9 @@ export function Fortification({ player, flank }: Fortification): JSX.Element {
 
   return (
     <div className="pt-1">
-      {flank == Flank.defence ? (
-        <select className="border rounded text-right" {...register(`${player}.${flank}.fortification`)}>
-          {options}
-        </select>
-      ) : (
-        ''
-      )}
+      <select className="border rounded text-right" {...register(`${player}.${flank}.fortification`)}>
+        {options}
+      </select>
     </div>
   );
 }

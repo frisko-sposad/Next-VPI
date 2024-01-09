@@ -217,6 +217,10 @@ const StatsTable = () => {
         accessor: 'attackBonus',
       },
       {
+        Header: 'healthBonus',
+        accessor: 'healthBonus',
+      },
+      {
         Header: 'Бонус в Атаке по',
         columns: [
           {

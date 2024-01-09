@@ -7,7 +7,7 @@ const Users = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://localhost:5000/users', {
+      const response = await fetch('http://localhost:5000/', {
         method: 'GET',
         headers: {
           accept: 'application/json',
@@ -15,6 +15,7 @@ const Users = () => {
       });
 
       const data = await response.json();
+      console.log(data);
       setDataUsers(data);
     };
     fetchData();

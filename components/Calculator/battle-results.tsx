@@ -1,6 +1,7 @@
 import React from 'react';
-import { ParseData } from '../function/battle';
+
 import FlankResults from './flank-results';
+import { ParseData } from '../../function/battle';
 
 const BattleResults = ({ resultBattleData: { player1, player2 } }: { resultBattleData: ParseData }) => {
   return (

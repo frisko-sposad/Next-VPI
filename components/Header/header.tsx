@@ -38,6 +38,13 @@ const Header = () => {
                 </a>
               </Link>
             </li>
+            <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
+              <Link href="/map_dorn">
+                <a className="block transition duration-150 ease-in-out hover:text-blue-500 disabled:text-black/30 dark:hover:text-white dark:focus:text-white lg:p-2 [&.active]:text-black/90">
+                  <h2>Map Dorn</h2>
+                </a>
+              </Link>
+            </li>
           </ul>
         </div>
         <div>

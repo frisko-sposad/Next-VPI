@@ -59,7 +59,7 @@ const StatsTable = () => {
         accessor: 'size',
       },
       {
-        Header: 'Цена(Золото)',
+        Header: 'Жалование(в ход)',
         accessor: 'price',
       },
       {
